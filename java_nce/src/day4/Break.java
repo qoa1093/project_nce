@@ -13,7 +13,7 @@ public class Break {
 			//if문 없이 break가 나오면 반복문을 쓴 의미가 없어짐.
 			break;
 		}
-		
+		 
 		
 		for(i=1; ; i+=1){
 			System.out.println(i);	//@@@ 헷갈려: >=로 표현시 브레이크문 먼저 실행하고 마지막에 출력
