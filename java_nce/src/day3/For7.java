@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class For7 {
 
 	public static void main(String[] args) {
-		// 최대공약수 구하는 문제
+		// 최대공약수 구하는 문제					@@@숫자 약하니까 다시보기
 		
 		/*두 정수의 최대 공약수를 구하는 코드를 작성하세요.
 		 * 약수 : 나누어서 떨어지는 수
