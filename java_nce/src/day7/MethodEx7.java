@@ -82,13 +82,18 @@ public class MethodEx7 {
 			min = max;
 			max = tmp;
 		}
-		//배열에 랜덤으로 수를 생성하여 저장하는 곳(중복되지않게 포함)
-		for(int i =0; i<arr.length;i+=1) {
+		//배열에 랜덤으로 수를 생성하여 저장(중복 제거)
+		int cnt = 0; //배열에 저장된 수의 개수
+		while(cnt < arr.length) {
 			int r = (int)(Math.random()*(max-min+1)+min);
-			arr[i] =r;
+			if(!contains(arr,r,cnt)){
+				arr[cnt] =r;
+				cnt += 1;
+			}
 		}
 		return arr;
 	}
+	/*위의 예제와 다른 점 : return값이 있어서 리턴타입 없음(void)대신 리턴타입 int[]배열로 바꿔줌*/
 	
 	
 	
