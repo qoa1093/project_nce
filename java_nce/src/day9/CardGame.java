@@ -23,52 +23,35 @@ public class CardGame {
 		
 		int arr[] = new int[] {1,1,2,2,6,6,6};
 		int card[] = new int[2];
-		//int num = 0;
-		int cnt =1, tes = 0, k = 0;
+		int num = 0;
+		int cnt =1, tes = 0;
 		boolean res = false;
 		
 		for(int i=0;i<arr.length-1;i+=1) {
 			if(arr[i]==arr[i+1]) {
 				cnt += 1;
-				//num = arr[i];
+				num = arr[i];
 			}else {
 				if(cnt%3==0) {
 					res = true;
-					//card[tes] = num;
+					card[tes] = num;
 					tes += 1;
-					card[k] = arr[i];	//
-					k+=1;
 				}
 				cnt = 1;
 			}
 		}
 		if(cnt %3 == 0) {
 			res = true;
-			//card[tes] = num;
+			card[tes] = num;
 			tes += 1;
-			card[k] = arr[arr.length-1];	//	
 		}
-		//if(tes == 0){
-		//System.out.println("트리플 없음");
-		//}else{
-		//	for(int i =0; i<tes; i+=1){
-		//		System.out.println("card[i]"+" ");
-		//}
-		if(res) {
-			System.out.println(tes+"개 있음");
-			System.out.print("내 카드의 스트레이트 숫자: ");
-			for(int tmp:card) {							//
-				System.out.print(tmp+" ");
+		if(tes == 0){
+		System.out.println("트리플 없음");
+		}else{
+			for(int i =0; i<tes; i+=1){
+				System.out.println(card[i]+" ");
 			}
-			System.out.println();
-		}else {
-			System.out.println("없음");
 		}
-		
-		
-		
-		
-
 	}
 
 }
