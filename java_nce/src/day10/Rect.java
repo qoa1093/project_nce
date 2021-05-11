@@ -14,10 +14,10 @@ public class Rect {
 	 * 리턴타입 : 없음
 	 * 메소드명 : print*/
 	public void print() {
-		System.out.print("rightDown: ");
-		rd.print();
 		System.out.print("leftUp: ");
 		lu.print();
+		System.out.print("rightDown: ");
+		rd.print();
 		System.out.println("너비 : "+ l +'\n'+"높이 : " + h);
 	}
 	
@@ -40,18 +40,37 @@ public class Rect {
 		
 	// # 내코드 : 참조변수는 주소를 같다고 저장하기 때문에 공유를 하게됨 따라서 lu1 lu가 내용이 바뀌면 같이 바뀜. 따라서 완성된 코드가 아님.
 	  public Rect(Point lu1, Point rd1) {
-		lu = lu1;
-		rd = rd1;
+		//lu = lu1;	//얘넨 서로 같은 정보를 공유 참조변수끼리 같다로 비교하는 경우는 거의 없음
+		//rd = rd1;	//얘넨 서로 같은 정보를 공유
+		  lu = new Point(lu1);
+		  rd = new Point(rd1);
 		h = lu.getY() - rd.getY();
 		l = rd.getX() - lu.getX();
 	}
 	
 	/* 기능 : 주어진 좌표로 왼쪽 위의 점을 이동시키는 메소드
-	 * 매개변수 : 주어진 좌표위의 x,y좌표 => int x, y
-	 * 리턴타입 : 
+	 * 매개변수 : 주어진 좌표위의 x,y좌표 => 
+	 * 리턴타입 : 없음
 	 * 메소드명 : move*/
+	  public void move(int x1, int y1) {
+		  lu.move(x1, y1);
+		  //오른쪽 아래 점을 이동//x1기준으로 너비(l)만큼 더해주고 y1을 기준으로 높이(h)만큼 빼주면 됨
+		  rd.move(l+x1, y1-h);
+		  
+	  }
+	  
+	 /* 기능 	  : 왼쪽 위의 점을 기준으로 사각형의 너비와 높이를 변경하는 메소드
+	  * 매개변수 : 높이와 너비 => int l, h
+	  * 리턴타입 : 없음 => void
+	  * 메소드명 : resize */
+	  public void resize(int l1, int h1) {
+		  l = l1;
+		  h = h1;
+		  rd.move(lu.getX()+l1, lu.getY()-h1);
+	  }
+	  
 	
-	public int getH() {
+ 	public int getH() {
 		return h;
 	}
 	public void setH(int h) {
