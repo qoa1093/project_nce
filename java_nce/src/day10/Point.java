@@ -51,5 +51,10 @@ public class Point {
 	public Point() {}
 	//기본 생성자 만들어주면 에러 사라짐.
 	
+	//복사 생성자
+	public Point(Point pt) {
+		x = pt.x;
+		y = pt.y;
+	}
 
 }
