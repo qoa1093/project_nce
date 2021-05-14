@@ -43,6 +43,17 @@ public class Item {
 	public int getCost() {
 		return cost;
 	}
+	//조건문을 이용한 문자열 비교해서 +-분류 /선택지가 두개뿐이라 활용 가능
+	public int calCost() {
+		switch(type) {
+		case "지출":
+			return -cost;
+		case "수입":
+			return cost;
+		default:
+			return 0;
+		}
+	}
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
@@ -52,6 +63,7 @@ public class Item {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
+	//생성자
 	public Item(String type, String date, String paymentType, String category, int cost, String contents) {
 		
 		this.type = type;
