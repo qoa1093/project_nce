@@ -3,7 +3,7 @@ package day11;
 public class MethodOverloadingTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		Point2 pt = new Point2();
 		pt.print();
 		pt.move(4, 5);
@@ -11,6 +11,12 @@ public class MethodOverloadingTest {
 		Point2 pt2 = new Point2(10,20);
 		pt.move(pt2);
 		pt.print();
+		System.out.println(1);
+		System.out.println("1");
+		System.out.println('1');
+		
+		Point2 pt3 = new Point2();
+		Point2 pt4 = new Point2(0,0);
 
 	}
 

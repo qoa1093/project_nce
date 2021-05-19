@@ -5,7 +5,6 @@ import day1.Test1_1;
 public class ThisTest {
 
 	public static void main(String[] args) {
-		// 
 		TestA t = new TestA(5);
 		t.print();
 
