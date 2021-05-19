@@ -28,11 +28,40 @@ public class Board {
 	 * 리턴타입 : 없음
 	 * 메소드명 : print*/
 	public void print() {
-		System.out.println("번호 : "+num+'\n'+"제목 : "+ postTitle + '\n' + "작성자 : "+writer+'\n'+"조회수 : "+views+'\n'+"좋아요 : "+like+'\n' +"작성일 : "+registerDate + '\n' + "내용 : "+ contents);
+		views++;
+		System.out.println("번호 : "+num+
+				'\n'+"제목 : "+ postTitle + 
+				'\n' + "작성자 : "+writer+
+				'\n'+"조회수 : "+views+
+				'\n'+"좋아요 : "+like+
+				'\n' +"작성일 : "+registerDate + 
+				'\n' + "내용 : "+ contents);
+	}
+	
+	/* 기능 : 게시글 정보를 요약(번호, 제목, 작성자, 작성일, 조회수)해서 출력하는 기능
+	 * 매개변수 : 없음
+	 * 리턴타입 : 없음 => void
+	 * 메소드명 : summaryPrint
+	 * */
+	public void summaryPrint() {
+		System.out.print(num+" "
+				+postTitle+" "
+				+writer+" "
+				+registerDate+" "
+				+views+" ");
+		System.out.println();
+	}
+	/* 기능 : 제목과 내용을 수정하는 메소드
+	 * 매개변수 : 수정할 제목, 내용 => String postTitle, String contents
+	 * 리턴타입 : 없음 => void
+	 * 메소드명 : modify*/
+	public void modify(String postTitle, String contents) {
+		this.postTitle = postTitle;
+		this.contents = contents;
 	}
 	
 	
-	//
+	
 	public int getNum() {
 		return num;
 	}
