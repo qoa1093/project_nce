@@ -3,6 +3,8 @@ package day18;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import day2.signOperator;
+
 
 public class MapTest2 {
 	public static HashMap<String, String> sign = new HashMap<String, String>();
@@ -54,52 +56,68 @@ public class MapTest2 {
 					
 		
 		String id, pw;
-		
+		int k;
 		Scanner scan = new Scanner(System.in);
 		
 		
-		while(true) {
-			System.out.println("1. 회원가입 \n 2. 로그인 \n 3. 종료 ");
+		do{
+			System.out.println(" 1. 회원가입 \n 2. 로그인 \n 3. 종료 ");
 			System.out.print("메뉴선택 : ");
-			int k = scan.nextInt();
+			 k = scan.nextInt();
+			if(k!=1 && k!=2 && k!=3) {
+				System.out.println("잘못된 입력입니다. 다시 번호를 입력하세요.");
+			}
 			switch(k) {
 			case 1: 
-				System.out.println("아이디를 입력하세요 : ");
+				System.out.println("회원가입");
+				System.out.print("아이디 : ");
 				id = scan.next();
-				nonsignup(id)
-					
-				
+				if(nonsignup(id)) {
+					System.out.println("=====이미 가입된 회원입니다.=====");
+					continue;
+				}
+				System.out.print("비밀번호 : ");
+				pw = scan.next();
+				sign.put(id, pw);
+				System.out.println("회원 가입되었습니다.");
+				break;
 				
 				//signup(scan.next(), scan.next());
-			case 2: login(scan.next(), scan.next());
-			case 3: break;
+			case 2: 
+				System.out.print("아이디 : ");
+				id = scan.next();
+				System.out.print("비밀번호 : ");
+				pw = scan.next();
+				if(login(id, pw)) {
+					System.out.println("로그인 성공");
+					break;
+				}else {
+					System.out.println("로그인 실패");
+					break;
+				}
 			}
-		}
-		//반복문 ()
-		 //
+		}while(k!=3);
 		
-		
+		/*if(k==3) {		// do while -> while(true), switch이전에 브레이크문 넣어주기
+			break;
+		  }*/
 
 	}
 	//회원가입 메소드
-	//회원가입 기능
-	//아이디 입력
-	//가입된 아이디가 아니면 비밀번호 입력 후 아이디와 비밀번호를 저장
-	
-	//가입된 아이디이면 이미 가입된 아이디라고 출력
-	public static void nonsignup(String id) {
-		sign.put(id,null);
+	//가입된 아이디인지 아닌지 확인하는 메소드
+	public static boolean nonsignup(String id) {
 		if(sign.containsKey(id)) {
-			System.out.println("이미 가입된 아이디입니다.");
-			return;
-		}else {
-			return;
+			return true;
 		}
-		
-				
-	}
+		return false;
+		}
+			
+	
 	//로그인 메소드
 	public static boolean login(String id, String pw) {
+		if(sign.containsKey(id)&&sign.containsValue(pw)) {
+			return true;
+		}
 		return false;
 	}
 
