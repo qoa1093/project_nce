@@ -1,0 +1,66 @@
+음악차트를 관리하는 사이트를 구축
+이때 필요한 테이블을 정리(순위x)
+xxx테이블
+번호 : xx_num
+
+제목, 가수, 노래길이, 썸네일 앨범? 장르, 발매일, 가수의 다른노래..?  
+
+
+
+가수 테이블(앱스) : singer
+-가수번호  : si_num, int, auto_increment, (##기본키)
+-가수명(그룹명) : si_name, varchar(50),  
+-데뷔년도 : si_start_year, int
+-소속사 : si_agency, varchar(30)
+
+
+아티스트 테이블(레이나,리지) : artist
+-번호 : ar_num, int, auto_increment(##기본키)
+-생일 : ar_birth, datetime
+-현재소속사 : ar_agency, varchar(30)
+-아티스트명 : ar_name, varchar(50)
+-본명 : ar_rname, varchar(50)
+
+
+
+멤버 테이블(오캬에 레이나, 앱스에 레이나) : member
+-어떤 가수그룹에 아티스트가 있는지..
+-번호 : me_num int auto_increment(##기본키)
+-가수번호 : me_si_num int (외래키) not null
+-아티스트번호 : me_ai_num int (외래키) not null
+-포지션 : me_position varchar(20)
+
+
+
+음원 테이블 : sourse
+-음원번호(##기본키) : so_num int auto_increment
+-제목 : so_title varchar(50) not null
+-가사 : so_lyric longtext not null
+-공개일 : so_public_day datetime not null
+-작곡가 : so_songwriter varchar(50) not null
+-작사가 : so_lyricist varchar(50) not null
+
+음원포함된가수 테이블 : sing
+음포가 번호(##기본키) sn_num int auto_increment,
+음원번호 sn_so_num int not null, -- 외래키
+가수번호 sn_si_num int not null, -- 외래키
+피쳐링여부 sn_featuring char(1) not null
+
+
+앨범 테이블 : album(
+-앨범번호(##기본키) al_num int auto_increment,
+앨범타이틀명 al_title varchar(50) not null,
+발매일등 al_issue_date date);
+(대표곡) 
+
+앨범포함된가수 테이블 - issue
+앨포가번호(##기본키) is_num int auto_increment,
+앨범번호 is_al_num int,--외래
+가수번호 is_si_num int) -- 외래;
+
+앨범포함된음원 테이블(앨범에 포함된 음원들이 어떤 음원인지 알려주는 테이블) : list
+앨포음번호 li_num int auto_increment, 
+앨범번호 li_al_num int not null, -- 외래
+음원번호 li_sonum int not null, -- 외래
+ 대표곡여부 li_main char(1) not null);
+
