@@ -77,7 +77,7 @@ sn_so_num int not null, -- 외래키
 sn_si_num int not null, -- 외래키
 sn_featuring char(1) not null,
 primary key(sn_num),
-foreign key(sn_so_num) references sourse(so_num),
+foreign key(sn_so_num) references source(so_num),
 foreign key(sn_si_num) references singer(si_num)
 );
 /*앨범 테이블 : album(
