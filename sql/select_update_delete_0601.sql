@@ -281,5 +281,5 @@ select * from A left join B on A.속성 = B.속성;는
 select * from B right join A on A.속성 = B.속성;와 같다
 */
 
-select * from `주문 `right outer join `제품`
+select * from `주문` right outer join `제품`
 on 주문제품 = 제품번호; 
