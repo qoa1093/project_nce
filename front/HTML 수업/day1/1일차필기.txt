@@ -1,0 +1,18 @@
+:3030_db
+
+jquery : js에 사용하는 라이브러리
+
+파일 찾아가서 실행-> 열림
+오른쪽 클릭 -> 오픈서버
+
+<!--title태그 : 브라우저 탭 상단 왼쪽에 해당 페이지 제목을 나타냄-->
+
+ctrl+ enter : 커서 위치 상관없이 다음줄로 넘어감
+
+ctrl + / : 주석 단축키
+
+alt + 클릭 : 다중커서 활용가능
+
+w3c 유효성검사 사이트
+https://validator.kldp.org/ 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
