@@ -1,0 +1,12 @@
+inline																block
+
+현재 위치에서 시작 										새라인에서 시작
+옆에 다른 요소 배치 									옆에 다른 요소 배치 불가능
+width,height 크기조절 불가능 					width, height 크기조절 가능
+margin-top/bottom 조절 불가능					margin, padding, border 조절 가능
+
+inline-block
+현재 위치에서 시작(inline)
+옆에 다른 요소 배치(inline)
+width, height 크기 조절 가능(block)
+padding, border, margin 조절 가능(block)

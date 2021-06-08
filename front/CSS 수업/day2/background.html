@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>그라데이션</title>
+	<style>
+		/* 
+		 background에 linear-gradient()함수를 이용하여 그라데이션 효과를 줄 수 있다 */
+	.box{height: 80px; border: 1px solid black;}
+	.box1{background: linear-gradient(RED, YELLOW);}
+	.box2{background: linear-gradient(to right, RED, YELLOW);}
+	.box3{background: linear-gradient(to top, RED, YELLOW);}
+	.box4{background: linear-gradient(to left, RED, YELLOW);}
+	.box5{background: linear-gradient(to bottom right, RED, YELLOW);}
+	.box6{background: linear-gradient(45deg, RED, YELLOW);}
+	.box7{background: linear-gradient( RED, YELLOW, green,blue);}
+	.box8{background: linear-gradient( RED 10px, YELLOW 20px, green 80%,blue);}
+	.box9{background: linear-gradient( to bottom left, RED 50%, YELLOW 50%);}
+	.box10{background: linear-gradient( to left, RED, YELLOW 30%, green 60%);}
+	.box11{background: linear-gradient( to left, RED 30%, YELLOW 30% 60%, green 60%);}
+	.box12{background: radial-gradient(transparent 60%, lightblue),
+		url("../img/고양이1.jfif") no-repeat center center;
+		height: 500px;}
+	</style>
+</head>
+<body>
+	<div class="box box1"></div>
+	<div class="box box2"></div>
+	<div class="box box3"></div> 
+	<div class="box box4"></div>
+	<div class="box box5"></div>
+	<div class="box box6"></div>
+	<div class="box box7"></div>
+	<div class="box box8"></div>
+	<div class="box box9"></div>
+	<div class="box box10"></div>
+	<div class="box box11"></div>
+	<div class="box box12"></div>
+
+
+</body>
+</html>
