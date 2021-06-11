@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>반응형 예제1</title>
+	<style>
+		.box{width: 40px; height: 200px; border:1px solid red;}
+		@media screen and (min-width:640px) {
+			.box{width: 100vw; height: 10vh;}
+		}
+		.box2{height: 50px; border:1px solid red;}
+		@media screen and (max-width:640px) {
+			.box{width: 300px; height: 600px;}
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="box1"></div>
+</body>
+</html>

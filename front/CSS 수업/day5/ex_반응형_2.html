@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>메뉴창 예제2</title>
+	<script src="https://kit.fontawesome.com/f7b209ccbb.js" crossorigin="anonymous"></script>
+	<style>
+		*{padding: 0; margin: 0;}
+		.box{
+			height: 60px; border: 2px solid salmon;  position:relative;
+		}
+		.box>.fa-bars{
+			display: block; width: 60px;  height: 60px; border: 2px solid salmon;
+			position: absolute; top: -1px; right: -1px; cursor: pointer;
+			font-size: 56px; color: salmon; text-align: center; line-height: 60px;
+		}
+		.box>.fa-bars:hover{ color: slategray;}
+		.box2{ 
+			height: 300px; width: 80px;  position: relative;
+			list-style: none;
+		}
+		.box2>li{
+			border: 2px solid salmon; text-align: center; height: calc(100% / 3);
+			line-height: 100px; 
+		}
+		.box2>li:nth-child(1),.box2>li:nth-child(2){
+			border-bottom: 0;
+		}
+		@media screen and (min-width:640px) {
+			.box{ display: none;}
+			.box2{width: 100vw; }
+			.box2>li{ float: left; }
+			
+		}
+
+
+
+	</style>
+</head>
+<body>
+	
+<nav class="box">
+	<i class="fas fa-bars"></i>
+</nav>
+<menu class="box2">
+	<li>menu1</li>
+	<li>menu2</li>
+	<li>menu3</li>
+</menu>
+
+</body>
+</html>

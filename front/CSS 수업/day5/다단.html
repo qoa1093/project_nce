@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>다단예제</title>
+	<style>
+		/* 
+			column-count : 다단 갯수 
+			column-gap : 단과 단사이에 여백
+			column-rule : 단 선 모양
+ 			column-span : h태그가 포함되면 해당 부분에 단을 해제할지 말지를 결정하는 속성
+			column-width : 브라우저에 대한 최소 너비
+		
+		 */
+		 body{
+			 width: 600px;
+			 column-count: 3;
+			 column-gap: 20px;
+			 column-rule: 1px solid red;
+			 
+			
+			 text-align: justify;
+		 }
+		 body h1{ column-span: all;}
+	</style>
+</head>
+<body>
+	<p>
+		<h1>투쁠곰탕</h1>
+		매장에 필요한 야채를 사러 들리는 곳이
+		율량동에 있어 자주 오는데요.어느 순간
+		곰탕집이 생겨 언젠가는 한번 맛 봐야겠
+		다 생각하고 눈여겨 봐두었었죠.
+
+		눈여겨 본지 한두달만에 드뎌 방문했습
+		니다!
+		​
+		일단 첫인상으로는 주차장이 넓어 시원
+		시원해 보였고,제가 장보는 마트하고 가
+		까워서 좋았어요.
+
+
+	</p>
+	
+</body>
+</html>
