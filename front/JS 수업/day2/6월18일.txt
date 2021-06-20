@@ -1,0 +1,18 @@
+^abcd?$ : abc 또는 abcd
+
+
+
+^(abcd)?$ : 빈문자열이거나 abcd가 하나 있거나
+
+^https?:\/\/\w+(\.[a-z]{2,})+$ : url주소 정규표현식
+
+
+div#box => <div id="box">
+
+regex101(정규표현식 사이트)
+//
+#{} - ${}
+let var
+//
+
+
