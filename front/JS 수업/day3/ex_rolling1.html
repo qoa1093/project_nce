@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>롤링~</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		
+			/* 시간지나면 박스 위로 가면서 검은박스에 보이는 부분 내려오도록.
+			
+			1. 가로 100px, 세로100px상자가 1초마다 10px 오른쪽으로 이동하도록.
+			단, 이동할때 상자의 움직임은 부드러워야한다.
+			 주의사항
+			 이동시간이 간격보다 긴 경우 움직임이 꼬일 수 있다
+			 애니메이션 시간 < 인터벌 간격
+			*/
+			var ml = 10;
+		$(function(){
+			setInterval(function(){
+				$('.box').animate({'margin-left': ml+'px'},800);
+				ml = ml + 10;
+			},1000);
+			
+		});
+		
+	</script>
+</head>
+<body>
+	<div class="box" style="width: 100px; height: 100px; background-color: thistle;"></div>
+</body>
+</html>

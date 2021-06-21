@@ -1,0 +1,8 @@
+JQUERY : JS라이브러리
+JS에서 요소를 생성하고 배치하는 코드 스타일이 JQUERY에서 요소를 생성하고 배치하는 
+코드 스타일이 많이 다름
+
+구글 ->페이지-> 구글 CDN( 3.xx snippet)
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+https://www.w3schools.com/jquery/jquery_ref_events.asp

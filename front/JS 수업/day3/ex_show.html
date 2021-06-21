@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		/*
+			show 버튼 클릭하면 요소가 보이고 hide버튼을 클릭하면 요소가 안보이도록
+			코드를 작성. 단, animate를 이용.
+		*/
+		$(function(){
+			$('#show').click(function(){
+				$('.box').stop().animate({height:'100px'},1000,function(){
+					$(this).animate({opacity:1});
+				});  
+			});
+
+			$('#hide').click(function(){
+				$('.box').stop().animate({opacity:0},100,function(){
+					$(this).animate({height:'0px'});
+				}); 
+			});
+			
+
+		})
+	</script>
+</head>
+<body>
+	<button id="show">show</button>
+	<button id="hide">hide</button>
+	<div class="box" style="color:  steelblue; width: 50px; height: 100px;">
+		4567 <br> 4567 <br>4567 <br>4567 
+	</div>
+	<div class="box2" style="height: 100px; width: 50px; background-color: thistle;"></div>
+	
+</body>
+</html>
