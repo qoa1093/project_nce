@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이전다음버튼예제</title>
+  <script src="https://kit.fontawesome.com/f7b209ccbb.js" crossorigin="anonymous"></script>
+  <script src="../js/jquery.min.js"></script>
+  <script>
+    $(function(){
+      $('.next-btn').click(function(){
+        if($('.selected').attr('data') != 'last')
+          $('.selected').removeClass('selected')
+          .next().addClass('selected').click(); //방법1 
+      });
+      $('.prev-btn').click(function(){
+        if($('.selected').attr('data') != 'first') //find('a').attr('target');으로 하면됨
+          $('.selected').removeClass('selected')
+          .prev().addClass('selected');
+          $('.selected').click(); //방법2
+      });
+      $('.menu-list').click(function(){
+        $('.menu-list').removeClass('selected');
+        $(this).addClass('selected');
+        var target = $(this).attr('target-box');
+        $('.in-box').hide();
+        $(target).show();
+      });
+      $('#box2').hide();
+      $('#box3').hide();
+      $('#box4').hide();
+
+
+      //target-box  //container> .box #box1
+
+    })
+
+  </script>
+  <style>
+    *{padding: 0; margin: 0; text-decoration: none; list-style: none;color: saddlebrown;}
+    
+    .box{
+      margin: 0 20px; position: relative;  
+      }
+    .menu-box{
+      border: 1px solid red;  height: 50px;
+      
+    }
+    .menu{
+      display: flex;
+    }
+    .menu-list{
+        border-right: 1px solid red; width: 100%; height: 50px;}
+    .menu-list:last-child{ border-right: none;}
+    .menu-link{line-height: 50px; text-align: center;display: block; height: 50px;}
+    
+    .prev-btn{
+      position: absolute; width: 30px; height: 30px; background-color: whitesmoke;
+      border: 1px solid red; top:9px; left: 0; margin-left: -15px;
+      border-radius: 50%; cursor: pointer; text-align: center; line-height: 30px;
+    }
+    .next-btn{
+      position: absolute; width: 30px; height: 30px; background-color: whitesmoke;
+      border: 1px solid red; top:9px; right: 0; margin-right: -15px;text-align: center;line-height: 30px;
+      border-radius: 50%; cursor: pointer;
+    }
+    .fas{ color: red; opacity: 80%;}
+    .selected{
+      background: wheat;
+    }
+    /*
+    
+    */
+    .in-box{
+      height: 200px; margin: 0 20px; margin-top: 20px; background: whitesmoke;
+    }
+    
+    
+  </style>
+</head>
+<body>
+  
+    <div class="box">
+    <div class="menu-box">
+      <ul class="menu">
+        <li class="menu-list selected" data="first" target-box="#box1">
+          <a href="#" class="menu-link" >1</a>
+        </li>
+        <li class="menu-list"  target-box="#box2">
+          <a href="#" class="menu-link">2</a>
+        </li>
+        <li class="menu-list" target-box="#box3">
+          <a href="#" class="menu-link" >3</a>
+        </li>
+        <li class="menu-list" data="last" target-box="#box4">
+          <a href="#" class="menu-link" >4</a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-box">
+      <div class="prev-btn"><i class="fas fa-chevron-left"></i></div>
+      <div class="next-btn"><i class="fas fa-chevron-right"></i></div>
+    </div>
+  </div>
+  <ul>
+    <div class="container">
+    <div class="in-box" id="box1">1</div>
+    <div class="in-box" id="box2">2</div>
+    <div class="in-box" id="box3">3</div>
+    <div class="in-box" id="box4">4</div>
+  </div>
+   
+  
+</body>
+</html>
