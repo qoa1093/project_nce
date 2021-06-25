@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>롤링 버튼 예제</title>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/rolling.js"></script>
+	<script src="https://kit.fontawesome.com/f7b209ccbb.js" crossorigin="anonymous"></script>
+	<script>
+		var id;
+		$(function(){
+			id = rollingLeft('.contents-box','li',800,1000);
+			$('.view-box').hover(function(){
+				clearInterval(id);				
+			},function(){
+				id = rollingLeft('.contents-box','li',800,1000);
+			})
+			$('.next-btn').click(function(){
+				var width = $('.contents-box li').first().width();
+				$('.contents-box li').first().animate({'margin-left': -width + 'px'},800,function(){
+					$(this).detach().appendTo('.contents-box').removeAttr('style');
+				})
+			})
+			$('.prev-btn').click(function(){
+				var width = $('.contents-box li').first().width();
+				$('.contents-box li').last().detach().prependTo('.contents-box')
+				.css('margin-left', -width + 'px').animate({'margin-left':0},800);
+			
+			})
+		})
+	</script>
+	<style>
+		.view-box{
+			height: 50px; position: relative; margin: 0 40px;
+		}
+		.inner-box{
+			height: 50px; border: 2px solid thistle;  overflow: hidden;
+		}
+		.contents-box{
+			width: 400%; list-style: none; padding: 0; margin: 0; 
+		}
+		.contents-box::after{
+			display: block; content: ''; clear: both;
+		}
+		.contents-box li{
+			height: 50px; line-height: 50px; width: 25%; float: left; background: thistle;
+			text-align: center; 
+		}
+		.prev-btn, .next-btn{
+			width: 35px; height: 35px; border-radius: 50%; background:rosybrown;
+			position: absolute; top: 9px; left: 0; margin-left: -16px; cursor: pointer;
+			text-align: center; line-height: 35px; opacity: 90%;
+		}
+		.next-btn{
+			left: auto; right: 0; margin-left: 0; margin-right: -16px;
+	
+		}
+		.fas{ color: whitesmoke; opacity: 50%;}
+
+	</style>
+</head>
+<body>
+	<div class="view-box">
+		<div class="btn-box">
+			<div class="prev-btn"><i class="fas fa-chevron-left"></i></div>
+      <div class="next-btn"><i class="fas fa-chevron-right"></i></div>
+		</div>
+		<div class="inner-box">
+			<ul class="contents-box">
+				<li>박스1</li>
+				<li>박스2</li>
+				<li>박스3</li>
+				<li>박스4</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
