@@ -14,7 +14,7 @@
           $('.selected').removeClass('selected')
           .next().addClass('selected').click(); //방법1 
         }else{
-          $('.menu-box').next().addClass('.menu-box');
+          $('.menu-box').hide().next('.menu-box').show();
         }
       });
       $('.prev-btn').click(function(){
@@ -43,19 +43,19 @@
   <style>
     *{padding: 0; margin: 0; text-decoration: none; list-style: none;color: saddlebrown;}
     
-    .box{
+    .menu-box{
       margin: 0 20px; position: relative;  
       }
-    .menu-box{
+    .menu-wrap-box{
       border: 1px solid red;  height: 50px;
       
     }
     .menu{
       display: flex;
     }
-    .menu-list{
+    .menu-item{
         border-right: 1px solid red; width: 100%; height: 50px;}
-    .menu-list:last-child{ border-right: none;}
+    .menu-item:last-child{ border-right: none;}
     .menu-link{line-height: 50px; text-align: center;display: block; height: 50px;}
     
     .prev-btn{
@@ -84,39 +84,55 @@
 </head>
 <body>
   
-    <div class="box">
     <div class="menu-box">
+    <div class="menu-wrap-box">
       <ul class="menu">
-        <li class="menu-list selected" data="first" target-box="#box1">
+        <li class="menu-item" data="first" target-box="#box1">
           <a href="#" class="menu-link" >1</a>
         </li>
-        <li class="menu-list"  target-box="#box2">
+        <li class="menu-item"  target-box="#box2">
           <a href="#" class="menu-link">2</a>
         </li>
-        <li class="menu-list" target-box="#box3">
+        <li class="menu-item" target-box="#box3">
           <a href="#" class="menu-link" >3</a>
         </li>
-        <li class="menu-list" data="last" target-box="#box4">
+        <li class="menu-item" data="last" target-box="#box4">
           <a href="#" class="menu-link" >4</a>
         </li>
       </ul>
-    </div>
-		<div class="menu-box">
+    
+		
       <ul class="menu">
-        <li class="menu-list selected" data="first" target-box="#box1">
+        <li class="menu-item selected" data="first" target-box="#box1">
           <a href="#" class="menu-link" >5</a>
         </li>
-        <li class="menu-list"  target-box="#box2">
+        <li class="menu-item"  target-box="#box2">
           <a href="#" class="menu-link">6</a>
         </li>
-        <li class="menu-list" target-box="#box3">
+        <li class="menu-item" target-box="#box3">
           <a href="#" class="menu-link" >7</a>
         </li>
-        <li class="menu-list" data="last" target-box="#box4">
+        <li class="menu-item" data="last" target-box="#box4">
           <a href="#" class="menu-link" >8</a>
         </li>
       </ul>
-    </div>
+
+      ul class="menu">
+        <li class="menu-item selected" data="first" target-box="#box1">
+          <a href="#" class="menu-link" >9</a>
+        </li>
+        <li class="menu-item"  target-box="#box2">
+          <a href="#" class="menu-link">10</a>
+        </li>
+        <li class="menu-item" target-box="#box3">
+          <a href="#" class="menu-link" >11</a>
+        </li>
+        <li class="menu-item" data="last" target-box="#box4">
+          <a href="#" class="menu-link" >12</a>
+        </li>
+      </ul>
+    
+    </div> 
     <div class="btn-box">
       <div class="prev-btn"><i class="fas fa-chevron-left"></i></div>
       <div class="next-btn"><i class="fas fa-chevron-right"></i></div>
