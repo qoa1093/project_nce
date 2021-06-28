@@ -104,7 +104,7 @@
 			width: 1190px; padding: 20px 30px 20px; display: flex; box-sizing: border-box;
 		}
 		.box3 .menu-box .menu-list{
-			width: 100%; box-sizing: border-box; border-left: 1px solid red;
+			width: calc(100% / 7); box-sizing: border-box; border-left: 1px solid red;
 			height: 260px;padding: 0 14px;
 		}
 		.box3 .menu-box .menu-list:last-child{
@@ -132,7 +132,7 @@
 
 		.box3 .menu-box .menu-list li{
 			
-			font-size: 13px; line-height: 26px; letter-spacing: -.6px;
+			font-size: 13px; line-height: 26px; letter-spacing: -1.0px;
 		}
 		.box3 .menu-box .menu-list li.title{
 			font-weight: bold; font-size: 14px; margin-bottom: 5px;
