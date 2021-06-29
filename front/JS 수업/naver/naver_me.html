@@ -39,6 +39,35 @@
             })
         })
     })
+    /* 코드
+					$('li.minus a').each(function(){
+							var text = $(this).text();
+							text = text.substr(4).trim(); //앞뒤 공백을 없애줌
+							$(this).text(text);
+					})*/
+          /*var index = selMenu.indexOf(value); 
+        //선택한 항목이 (배열안에) 있으면(체크를 해제하면)
+        if(index >= 0){
+          selMenu.splice(index,1);
+        }
+        //선택한 항목이 없으면(체크 하면)
+        else{
+					//배열에 저장된 갯수가 3보다 작으면 배열에 추가
+					if(selMenu.length<4){
+          	selMenu.push(value);
+					}else if(selMenu.length>=4){
+					//배열에 저장된 갯수가 3보다 크거나 같으면 배열에 추가하지 않고 
+					//지금막 체크된 체크박스를 체크해제 
+					$(this).prop('checked', false);
+					alert('최대 4개 입니다.')
+					}
+        }
+        initMenuBox(selMenu);
+        //setMenuBox(selMenu,oriMenu);
+				$('.menu .list-item.input-box.selected').each(function(i){
+					var val = typeof arr[i] == 'undefined' ? '': arr[i];
+					$('.menu .list-item.input-box.selected').eq(i).text(val);
+				})*/
 </script>
 <style>
 
@@ -295,7 +324,76 @@
         </div>
                 
               </div>
-          </div>       
+          </div>  
+          <div class="left3">
+            <div class="left3-btn-box">
+              <div class="prev-btn"><i class="fas fa-angle-left"></i></div>
+              <div class="next-btn"><i class="fas fa-angle-right"></i></div>
+            </div>
+            <div class="left3-1">
+              <div class="left3-1-wrapbox">
+                <ul class="left3-inner">
+                  <li class="l3-inner-box selected" data-target=".lft3-box1">1</li>
+                  <li class="l3-inner-box" data-target=".lft3-box2">2</li>
+                  <li class="l3-inner-box" data-target=".lft3-box3">3</li>
+                  <li class="l3-inner-box" data-target=".lft3-box4">4</li>
+                  <li class="l3-inner-box" data-target=".lft3-box5">5</li>
+                  <li class="l3-inner-box" data-target=".lft3-box6">6</li>
+                  <li class="l3-inner-box" data-target=".lft3-box7">7</li>
+                  <li class="l3-inner-box" data-target=".lft3-box8">8</li>
+                  <li class="l3-inner-box" data-target=".lft3-box9">9</li>
+                  <li class="l3-inner-box" data-target=".lft3-box10">10</li>
+                  <li class="l3-inner-box" data-target=".lft3-box11">11</li>
+                  <li class="l3-inner-box" data-target=".lft3-box12">12</li>
+                  <li class="l3-inner-box" data-target=".lft3-box13">13</li>
+                  <li class="l3-inner-box" data-target=".lft3-box14">14</li>
+                  <li class="l3-inner-box" data-target=".lft3-box15">15</li>
+                  <li class="l3-inner-box" data-target=".lft3-box16">16</li>
+                  <li class="l3-inner-box" data-target=".lft3-box17">17</li>
+                  <li class="l3-inner-box" data-target=".lft3-box18">18</li>
+                  <li class="l3-inner-box" data-target=".lft3-box19">19</li>
+                  <li class="l3-inner-box" data-target=".lft3-box20">20</li>
+                  <li class="l3-inner-box" data-target=".lft3-box21">21</li>
+                  <li class="l3-inner-box" data-target=".lft3-box22">22</li>
+                  <li class="l3-inner-box" data-target=".lft3-box23">23</li>
+                  <li class="l3-inner-box" data-target=".lft3-box24">24</li>
+                  <li class="l3-inner-box" data-target=".lft3-box25">25</li>
+                  <li class="l3-inner-box" data-target=".lft3-box26">26</li>
+                  <li class="l3-inner-box" data-target=".lft3-box27">27</li>
+                </ul>
+              </div>
+            </div>
+            <div class="left3-2">
+              <div class="lft3-box1">1</div>
+              <div class="lft3-box2">2</div>
+              <div class="lft3-box3">3</div>
+              <div class="lft3-box4">4</div>
+              <div class="lft3-box5">5</div>
+              <div class="lft3-box6">6</div>
+              <div class="lft3-box7">7</div>
+              <div class="lft3-box8">8</div>
+              <div class="lft3-box9">9</div>
+              <div class="lft3-box10">10</div>
+              <div class="lft3-box11">11</div>
+              <div class="lft3-box12">12</div>
+              <div class="lft3-box13">13</div>
+              <div class="lft3-box14">14</div>
+              <div class="lft3-box15">15</div>
+              <div class="lft3-box16">16</div>
+              <div class="lft3-box17">17</div>
+              <div class="lft3-box18">18</div>
+              <div class="lft3-box19">19</div>
+              <div class="lft3-box20">20</div>
+              <div class="lft3-box21">21</div>
+              <div class="lft3-box22">22</div>
+              <div class="lft3-box23">23</div>
+              <div class="lft3-box24">24</div>
+              <div class="lft3-box25">25</div>
+              <div class="lft3-box26">26</div>
+              <div class="lft3-box27">27</div>
+            </div>
+            
+          </div>     
         </div>
       <div class="right-box">
           <div class="right1">

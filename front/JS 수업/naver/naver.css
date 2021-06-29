@@ -267,6 +267,103 @@
         display: block;
         background-color: #f7f9fa;
     }
+
+
+
+    /* 6월 29일자 예제 : left-box3
+    .left3 .left3-btn-box{
+        position: relative; top: 12px;
+    }
+    
+    .left3 .left3-btn-box .prev-btn,
+    .left3 .left3-btn-box .next-btn{
+         width: 30px; height: 30px; 
+        text-align: center; color: white; border-radius: 15px;
+        cursor: pointer; background-color: #c9cccf; line-height: 30px;
+    }
+    .left3 .left3-btn-box .prev-btn{
+        position: absolute; left: -15px; 
+        
+    }
+    .left3 .left3-btn-box .next-btn{
+        position: absolute; right: -15px;
+    }
+
+    .left3 .left3-1{
+        height: 49px;  
+    }
+    .left3 .left3-1 .left3-1-wrapbox{
+         box-sizing: border-box; border: 1px solid blue;
+          
+        
+        
+         /*overflow: hidden;
+    }
+    .left3 .left3-1 .left3-inner{
+        
+    }
+    
+    .left3 .left3-1 .l3-inner-box{
+        border: 1px solid brown; box-sizing: border-box;  
+        height: 49px; float: left; width: calc(100% / 8);
+    }
+    .left3 .left3-1 .selected{
+        background: yellow;
+    }
+    .left3 .left3-2{
+        height: 200px; background: wheat;
+    }*/
+    .left3{
+        margin-top: 8px;
+    }
+    .left3 .menu-box{ height: 50px;  position: relative; width: 750px;}
+
+    .left3 .menu-container-box{
+        height: 50px; width: 750px; overflow: hidden; border: 1px solid salmon; box-sizing: border-box;
+    }
+    .left3 .menu-wrap-box{width: 400%;	height: 50px;}
+    .left3 .menu{
+        width: calc(100% / 4); float: left; list-style: none; padding: 0; margin: 0;
+        height: 50px; line-height: 50px; text-align: center;
+    }
+    .left3 .menu .menu-item{
+        width: 94px; float: left; box-sizing: border-box; border-right: 1px solid salmon;
+        font-weight: bold;
+    }
+    .left3 .menu .menu-item:nth-child(8n+1){
+        width: 92px;
+    }
+    .left3 .menu .menu-item:nth-child(8n){
+        border-right: none; width: 92px;
+    }
+    .left3 .menu-btn-box .prev-btn, .menu-btn-box .next-btn{
+        width: 40px; height: 40px; background: white; border: 2px solid salmon;
+        border-radius: 50%; text-align: center; line-height: 40px; position: absolute;
+        top: 3px; left: 0; margin-left: -20px;
+    }
+    .left3 .menu-btn-box .next-btn{
+        left: auto; right: 0; margin-right: -20px;
+    }
+    .left3 .selected{
+        background: wheat;
+    }
+    .left3 .contents-box{
+        width: 750px;
+    }
+    .left3 .menu-item:nth-child(1):not(.selected):hover{ color: blue;}
+    .left3 .menu-item:nth-child(2):not(.selected):hover{ color: red;}
+
+    .left3 .menu-item:nth-child(1).selected{ color: white; background: blue;}
+    .left3 .menu-item:nth-child(2).selected{ color: white; background:  red;}
+
+
+    
+    
+
+
+
+
+
     .right2 .btn-box{
         position: absolute; top: 11px; right: 10px; 
     }
@@ -345,20 +442,7 @@
     .right4-bot4{ 
         padding: 0px 8px 30px;  position: relative;
     }
-    /* after */
-
-    .bold{  font-weight: bold;}
-    .mall-list::after, 
-    .right4-bot2 .inner-container::after,
-    .right4-bot4 .bot4-container .inner-container::after,
-    .contents-box::after,
-		.menu .black-menu-list::after,
-		.menu .green-menu-list::after,
-		.menu .container::after,
-		.menu .btn-box1::after,
-		.menu .btn-btn2::after {
-        content: ''; display: block; clear: both;
-    }
+    
     
     
     /* 6/16일자 예제 중 */
@@ -483,7 +567,20 @@
     /* 이거 right4-bot2에 붙여넣기 해야함 샵 컨트롤 부분 */
     .right4-bot4 .shop-control-box{ top: 14px;}
 
-
+/* after */
+.bold{  font-weight: bold;}
+.mall-list::after, 
+.right4-bot2 .inner-container::after,
+.right4-bot4 .bot4-container .inner-container::after,
+.contents-box::after,
+.menu .black-menu-list::after,
+.menu .green-menu-list::after,
+.menu .container::after,
+.menu .btn-box1::after,
+.menu .btn-btn2::after
+.left3-1 .left3-1-wrapbox .left3-inner::after/*6/29*/ {
+    content: ''; display: block; clear: both;
+}
    
 
     
