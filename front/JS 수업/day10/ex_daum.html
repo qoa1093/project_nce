@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>버튼구현예제</title>
+  <script src="../js/jquery.min.js"></script>
+  <script>
+    $(function(){
+      $('.bar li').click(function(){
+        
+        $(this).addClass('selected');
+        $('.selected').click(function(){
+          
+          location.href = "http://naver.com";
+          
+        })
+        
+      })
+    })
+  </script>
+  <style>
+    .bar{
+      width: 200px; height: 20px;
+    }
+    .bar::after{
+      display: block; content: ''; clear: both;
+    }
+    .bar>li{
+      border: 1px solid black; box-sizing: border-box;
+      width: 50px; height: 20px; float: left;
+      list-style: none; text-align: center; cursor: pointer;
+    }
+    .selected{
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <ul class="bar">
+      <li class="box1">뉴스</li>
+      <li class="box2">연예</li>
+      <li class="box3">스포츠</li>
+      <li class="box4">영화</li>
+    </ul>
+  </div>
+</body>
+</html>
