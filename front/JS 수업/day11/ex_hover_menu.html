@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('.inner-box').mouseover(function(){
+				$('.menu').hide();
+				console.log('입장');
+				var target = $(this).attr('target');
+				$(target).stop().slideDown(1000);			
+			})
+			$('.box').mouseleave(function(){
+				console.log('탈출');
+				var target = $(this).children('.inner-box').attr('target');
+				$(target).stop().slideUp(1000);		
+			})
+
+
+		})
+	</script>
+	<style>
+		*{padding: 0; margin: 0; text-decoration: none;}
+		.main{
+			height: 500px; background: tan;
+		}
+		.view{
+			height: 100px; /*border: 3px solid thistle; box-sizing: border-box;*/
+			width: 100%;
+		}
+		.view::after{
+			display: block; content: ''; clear: both;
+		}
+		.box{
+		  border: 3px solid red; box-sizing: border-box;
+			height: 500px; float: left; width: calc(100% / 3);
+		}
+		.inner-box{
+			border: 3px solid yellow; box-sizing: border-box; height: 100px;
+		}
+		.menu{
+			background-color: salmon; height: 400px; display: none;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="view">
+			<div class="box" >
+				<div class="inner-box" target = ".menu1"></div>
+				<div class="menu menu1"></div>
+			</div>
+			<div class="box">
+				<div class="inner-box" target = ".menu2"></div>
+				<div class="menu menu2"></div>
+			</div>
+			<div class="box">
+				<div class="inner-box" target = ".menu3"></div>
+				<div class="menu menu3"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>게시판 댓글 예제</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('.inner .upload').click(function(){
+				$('.inner #rr').val();
+			})
+		})
+
+	</script>
+	<style>
+		*{padding: 0; margin: 0;}
+		.contents>input{
+			width: 500px; height: 300px; 
+		}
+		.ripple{
+			width: 500px; 
+		}
+		.ripple>.inner{
+		 height: 80px; display: flex; margin-top: 10px;
+		}
+		.ripple .inner>span{
+			width: 10%;
+		}
+		.ripple .inner>input{
+		 width: 80%;margin-left: 5px;
+		}
+		.ripple .inner>button{
+			margin-left: 5px; width: 10%;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="title">제목입니다</div>
+	<div class="userName">홍길동</div>
+	<div class="contents">
+		<input type="text" name="textline" id="tt">
+	</div>
+	<div class="ripple">
+		<span>댓글</span>
+		<div class="inner">
+			<span>작성자</span>
+			<input type="text" id="rr"><button type="submit" class="upload">등록</button>
+	</div>
+	</div>
+</body>
+</html>

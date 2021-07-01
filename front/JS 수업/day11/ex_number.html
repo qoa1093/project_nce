@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>숫자만 입력 예제</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('input').on('input',function(){ //제이쿼리내에 없는경우 on 사용
+				var value = $(this).val();
+				//123.123.123
+				value = value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g, '$1'); 
+				// 아닌(^) 문자열을 빈문자열로 교체 //g는 끝까지 확인 //*는 0개 이상 //$1은 첫번째를 의미
+				//value = value.replace(/[^0-9]/g,'');//정수만 입력가능
+				$(this).val(value);
+				/*
+				replace(/(\..*)\./g, '$1')에서 (\..*)는 한 덩어리를 의미,
+				(\..*) : *은 0개 이상 = \.은 .을 의미 .는 공백, 글자등등.. 그러니까 
+				(.ㅁ*)는 .ㅁ가 0개 이상??모르겟다.. 
+				*/
+			})
+		})
+	</script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<div>실수만 입력가능한 예제</div>
+
+	<input type="text">
+</body>
+</html>

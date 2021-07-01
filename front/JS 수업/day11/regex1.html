@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>유효성검사</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('.birthday .il').click(function(){
+				$('.month li').removeClass('selected').show();
+				$(this).addClass('selected').show();
+			})
+		})
+		/*
+		'background': 'blue', 
+		*/
+	</script>
+	<style>
+		*{padding: 0; margin: 0; list-style: none; text-decoration: none; color: black;}
+		.birthday{
+			display: flex;
+		}
+		.birthday>*{
+			float: left; width: 100px;
+		}
+		.birthday>input{
+			height: 20px; 
+		}
+		
+		.birthday>.month1>p:first-child{
+			border: 1px solid black;
+		}
+		.birthday>.month1>.month{
+			border: 1px solid black; box-sizing: border-box;
+		}
+		.birthday>.month1>.month>li{
+			text-align: center; cursor: pointer; display: none;
+		}
+		.selected{
+			border: 1px solid black;  
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="sign">
+		<input type="text" name="id" placeholder="아이디"> <br> 
+		<input type="text" name="pw" placeholder="비밀번호"> <br>
+		<input type="text" name="name" placeholder="이름"> 
+		<p>생년월일</p>		
+		<div class="birthday">
+			<input type="text" name="year">
+			<div class="month1">
+			<p class="il"><a href="#">월</a></p>
+				<ul class="month">
+					<li class="selected"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">6</a></li>
+					<li><a href="#">7</a></li>
+					<li><a href="#">8</a></li>
+					<li><a href="#">9</a></li>
+					<li><a href="#">10</a></li>
+					<li><a href="#">11</a></li>
+					<li><a href="#">12</a></li>
+				</ul>
+			</div>
+			<input type="text" name="day">
+		</div>
+		
+		<div class="default"></div>
+		<ul class="gender">
+			<li><a href="#">남자</a></li>
+			<li><a href="#">여자</a></li>
+			<li><a href="#">선택안함</a></li>
+		</ul>
+		
+
+		<input type="email" name="mail"placeholder="mail"> <br>
+		<input type="tel" name="number"> <br>
+		<button id="submit">가입하기</button>
+	</div>
+</body>
+</html>
