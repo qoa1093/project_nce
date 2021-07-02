@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>지식인 답변하기</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('.max-btn').on('click',function(){
+				$('.list .content').removeClass('.display');
+			})
+			$('.min-btn').on('click',function(){
+				console.log('작');
+				$('.list').hide();
+				$('.list .title').show
+
+			})
+		})
+	</script>
+	<style>
+		*{ padding: 0; margin: 0; text-decoration: none; list-style: none; color: black;}
+		
+		.btn-box{
+			margin: 10px; 
+		}
+		.btn-box::after{
+			display:block; content: ''; clear: both;
+		}
+		.btn-box>.max-btn,.btn-box>.min-btn{
+			background-color: white; border: 1px solid grey; font-weight: bold;
+			width: 40px; height: 40px; box-sizing: border-box; float: left;
+		}
+		.main-list{
+			margin: 20px 10px; border: 1px solid red; 
+		
+		}
+		.main-list>.list>*{
+			margin: 10px;
+		}
+		.main-list>.list{
+			border: 1px solid blueviolet; height: 200px;
+		}
+		.list .title{
+			font-size: 20px; font-weight: bold;
+		}
+		.list .content{
+			height: 50%;
+		}
+	
+		.list .bottom>li{
+			float: left; margin-left:10px;
+		}
+		.display{
+			display: none;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="view">
+		<div class="btn-box">
+			<button class="max-btn"><a href="#">크</a></button>
+			<button class="min-btn"><a href="#">작</a></button>
+		</div>
+		<div class="main-list">
+			<ul class="list">
+				<li class="title"><a href="#">제목</a></li>
+				<li class="content"><a href="#">내용</a></li>
+				<ul class="bottom">
+					<li>답변</li>
+					<li>대수학</li>
+					<li>방금</li>	
+				</ul>
+			</ul>
+			<ul class="list">
+				<li class="title"><a href="#">제목</a></li>
+				<li class="content"><a href="#">내용</a></li>
+				<ul class="bottom">
+					<li>답변</li>
+					<li>대수학</li>
+					<li>방금</li>	
+				</ul>
+			</ul>
+			<ul class="list">
+				<li class="title"><a href="#">제목</a></li>
+				<li class="content"><a href="#">내용</a></li>
+				<ul class="bottom">
+					<li>답변</li>
+					<li>대수학</li>
+					<li>방금</li>	
+				</ul>
+			</ul>
+			<ul class="list">
+				<li class="title"><a href="#">제목</a></li>
+				<li class="content"><a href="#">내용</a></li>
+				<ul class="bottom">
+					<li>답변</li>
+					<li>대수학</li>
+					<li>방금</li>	
+				</ul>
+			</ul>
+		</div>
+
+	</div>
+	
+</body>
+</html>

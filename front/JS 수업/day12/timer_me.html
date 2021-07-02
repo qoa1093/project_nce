@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>타이머</title>
+	<script src="../js/jquery.min.js"></script>
+	<script>	
+		var hour = 0;   
+    var second = 0;
+    var minute = 0; 
+		var value;
+	$(function(){
+		$('#start').on('click',function(){
+			$(this).hide();
+			$('#end').show();
+			setInterval(function(){
+				second++;
+				hour = minute == 60? ++hour : hour;
+				minute = minute == 60? 0 : minute;
+				minute = second == 60? ++minute : minute;
+				second = second == 60? 0 : second; 
+			 	value = getTime(hour,minute, second);
+				$('.box').text(value);
+			}, 1000);
+	  })
+		$('#end').on('click',function(){
+			clearInterval(value);
+		})
+		$('#reset').on('click',function(){
+			
+		})
+	})
+	function addZero(num){
+		return num <10? '0' +num : num;
+	}
+	function getTime(hour,minute, second){
+		return addZero(hour) + ':' + addZero(minute) + ':' + addZero(second);
+	}
+	</script>
+	<style>
+		.box, .list{
+			height: 100px; border: 1px solid black; margin: 20px;
+		}
+		#end{
+			display: none;
+		}
+		
+	</style>
+</head>
+<body>  
+	<div class="box">
+
+	</div>   
+
+	<button id="start">시작</button>
+	<button id="end">종료</button>
+	<button id="reset">초기화</button>
+	<button id="write">기록</button>
+
+	<div class="list">
+
+	</div>
+   
+</body>
+</html>
