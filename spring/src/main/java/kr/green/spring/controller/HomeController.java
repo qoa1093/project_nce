@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.service.MemberService;
+import kr.green.spring.vo.MemberVO;
 import lombok.Data;
 
 /**
@@ -30,29 +31,53 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView mv) {
-	
 		mv.setViewName("home");
-		mv.addObject("name", "홍길동");
-		System.out.println(memberService.getMember("abc123"));
-
 		return mv;
 	}
-	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public ModelAndView signinGet(ModelAndView mv, UserVo user, @RequestParam("hobby") String[] hobby) {
-		
-		mv.setViewName("signin");
-		System.out.println("id: " + user.getId());
-		System.out.println("pw: " + user.getPw());
-		for(String tmp:hobby) {
-		System.out.println("hobby: " + tmp);
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)//post아니고 겟이라 처리안함
+	public ModelAndView signinGet(ModelAndView mv) {	
+		mv.setViewName("signin");		
+		return mv;
+	}
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)//post아니고 겟이라 처리안함
+	public ModelAndView signinPost(ModelAndView mv , MemberVO user) {	
+		//System.out.println(user);
+		//서비스에게 아이디와 비밀번호를 전달하면 해당 정보가 db에 있으면 
+		//회원정보를, 없으면 null을 반환
+		//작업이 다 끝난 후 url가 /signin인 곳으로 넘어감
+		MemberVO dbUser = memberService.signin(user);
+		//회원정보가 있으면 => 로그인에 성공하면
+		if(dbUser != null) {
+			mv.setViewName("redirect:/"); //메인화면으로 넘어가고	 
+		//회원정보가 없으면 => 일치하는 아이디가 없던지, 비밀번호가 잘못되던지
+		//				==> 로그인 실패
+		}else {
+			mv.setViewName("redirect:/signin"); //현재페이지에 있는 것 
 		}
-		
+		//화면을 직접 연결하지 않음
+		//다른 url를 실행시키는 방법 뒤에 내가 원하는 주소 쓰면 됨	
+		return mv;
+	}
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public ModelAndView signupGet(ModelAndView mv) {	
+		mv.setViewName("signup");		
+		return mv;
+	}
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public ModelAndView signupPost(ModelAndView mv, MemberVO user) {	
+		System.out.println(user);
+		//서비스에게 회원정보르 주면서 회원 가입하라고 일을 시키고, 회원가입 성공시 true
+		//실패하면 false를 알려달라고 요청
+		boolean isSignup = memberService.signup(user);
+		//회원가입에 성공하면 메인으로 실패하면 회원가입 페이지로
+		if(isSignup) {
+			mv.setViewName("redirect:/");		
+		}else {
+			mv.setViewName("redirect:/signup");
+		}
 		return mv;
 	}
 	
 }
-@Data
-class UserVo{
-	private String id;
-	private String pw;
-}
+// 지워도됨 안에 불필요 코드도 지움 
+
