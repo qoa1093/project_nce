@@ -39,6 +39,37 @@ public class MemberServiceImp implements MemberService {
 		memberDao.signup(user);
 		return true;
 	}
+
+
+	@Override
+	public MemberVO getMember(String id) {
+		//다오에게 아이디를 주면서 회원 정보를 가져오라고 시킴
+		//가져온 회원 정보를 전달
+		
+		return memberDao.getMember(id);
+	}
+	@Override
+	public int updateMember(MemberVO user) {
+		//다오에게 아이디를 주면서 기존 회원 정보를 가져오라고 시킴
+		if(user == null) {
+			return 0;
+		}
+		MemberVO dbUser = memberDao.getMember(user.getId());
+		//일치하는 회원 정보가 없으면 0을 반환
+		if(dbUser == null) {
+			return 0;
+		}
+		//기존 회원 정보 중 성별, 이메일을 수정할 회원정보의 성별, 이메일로 변경
+		dbUser.setGender(user.getGender());
+		dbUser.setEmail(user.getEmail());
+		//수정할 회원 정보에 비밀번호가 있으면 기존 회원 정보의 비밀번호를 변경
+		if(user.getPw()!= null && user.getPw().equals("")) {
+			dbUser.setPw(user.getPw());
+		}
+		
+		//다오에게 수정할 회원정보를 주면서 변경하라고 시킴
+		return memberDao.updateMember(dbUser);
+	}
 }
 
 

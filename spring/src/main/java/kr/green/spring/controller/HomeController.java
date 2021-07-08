@@ -77,6 +77,25 @@ public class HomeController {
 		}
 		return mv;
 	}
+	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
+	public ModelAndView memberMypageGet(ModelAndView mv, String id) {	
+		System.out.println(id);
+		//서비스에게 아이디를 주면서 회원 정보를 가져오라고 시킴
+		MemberVO user = memberService.getMember(id);
+		System.out.println(user);
+		//가져온 회원정보를 화면에 전달
+		mv.addObject("user",user);
+		mv.setViewName("member/mypage");		
+		return mv;
+	}
+	@RequestMapping(value = "/member/mypage", method = RequestMethod.POST)
+	public ModelAndView memberMypagePost(ModelAndView mv, MemberVO user) {	
+		System.out.println(user);
+		//서비스에게 회원정보를 주면서 수정하라고 요청
+		memberService.updateMember(user);
+		mv.setViewName("redirect:/member/mypage");		
+		return mv;
+	}
 	
 }
 // 지워도됨 안에 불필요 코드도 지움 
