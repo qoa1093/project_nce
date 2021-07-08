@@ -13,6 +13,48 @@ springtest 프로젝트
 
 게시글 리스트를 보여주는 화면을 만들고 DB에서 게시글을 가져와서 화면에 출력하는 코드를 작성하세요.(URL:/XXXX/board/list)
 게시글 상세 기능을 구현하세요.
+게시글 등록 기능을 구현하세요.
+게시글 수정/삭제 기능을 구현하세요.
+
+/board/list.jsp
+제목을 클릭하면 /board/detail로 이동하는데 클릭한 게시글의 번호를 전달
+
+BoardController
+ @RequestMapping에 /board/detail을 처리할 수 있는 메소드를 추가
+화면에서 넘겨준 게시글 번호 num을 받아옴
+서비스에게 번호를 주면서 조회수 증가를 하라고 요청
+서비스에게 번호를 주면서 게시글 정보를 달라고 요청
+가져온 게시글을 화면에 전송
+
+BoardService/BoardServiceImp
+게시글 번호가 주어졌을때 게시글 정보를 가져오는 메소드를 추가
+다오에게 번호를 주면서 게시글 정보를 가져오라고 요청
+가져온 정보를 반환
+
+BoardDAO
+게시글 번호를 주면서 게시글 정보를 가져오는 메소드 추가
+
+BoardMapper
+게시글 번호를 이용하여 게시글 정보를 가져오는 쿼리문 추가
+
+/board/detail.jsp
+서버에서 보내준 게시글을 화면에 출력
+
+-----------------------------------
+
+게시글 등록 기능
+
+BoardController
+BoardService/BoardServiceImp
+BoardDao/BoardMapper
+register.jsp
+list.jsp
+
+------------------------------------
+
+
+
+
 
 
 
@@ -24,3 +66,30 @@ springtest 프로젝트
 복습용 : 스프링테스트
 
 테스트 프로젝트 하나 만들어서 처음부터 끝까지 복습할 것 
+
+-------------------------------------
+
+No matching bean of type [kr.green.springtest.dao.BoardDAO] found for dependency: expected at least 1 bean which qualifies as autowire candidate for this dependency. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+---------------------------------------
+
+ Error creating bean with name 'boardController': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: kr.green.springtest.service.BoardService kr.green.springtest.controller.BoardController.boardService; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'boardServiceImp': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: kr.green.springtest.dao.BoardDAO kr.green.springtest.service.BoardServiceImp.boardDao; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No matching bean of type [kr.green.springtest.dao.BoardDAO] found for dependency: expected at least 1 bean which qualifies as autowire candidate for this dependency. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+---------------------------------------
+
+Error creating bean with name 'boardController': Injection of autowired dependencies failed
+-------------------------------------------
+
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import kr.green.springtest.service.BoardService;
+import kr.green.springtest.vo.BoardVO;
+import lombok.extern.log4j.Log4j;
