@@ -63,7 +63,7 @@ public class MemberServiceImp implements MemberService {
 		dbUser.setGender(user.getGender());
 		dbUser.setEmail(user.getEmail());
 		//수정할 회원 정보에 비밀번호가 있으면 기존 회원 정보의 비밀번호를 변경
-		if(user.getPw()!= null && user.getPw().equals("")) {
+		if(user.getPw()!= null && !user.getPw().equals("")) {
 			dbUser.setPw(user.getPw());
 		}
 		
