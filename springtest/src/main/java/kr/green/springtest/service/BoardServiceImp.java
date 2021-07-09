@@ -3,13 +3,13 @@ package kr.green.springtest.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.stereotype.Service;
 
 import kr.green.springtest.dao.BoardDAO;
 import kr.green.springtest.vo.BoardVO;
 
-@Repository
+
 @Service
 public class BoardServiceImp implements BoardService{
 	@Autowired
