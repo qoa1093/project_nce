@@ -26,7 +26,8 @@ public class BoardController {
 		cri.setPerPageNum(2);// 한페이지에 숫자 두개씩 보여주기
 		pm.setCriteria(cri); //현재페이지 설정
 		pm.setDisplayPageNum(2); //바에 숫자 두개씩 
-		pm.setTotalCount(6);//db에서 전체갯수 숫자 가져옴 
+		int totalCount = boardService.getTotalCount(cri);
+		pm.setTotalCount(totalCount);//db에서 전체갯수 숫자 가져옴 
 		pm.calcData();
 		log.info(pm);
 		//서비스에게 모든 게시글을 가져오라고 시킴

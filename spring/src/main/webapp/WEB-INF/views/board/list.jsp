@@ -21,7 +21,7 @@
   <div class="container">
 	 <h2>게시판</h2>
 	 <form class="input-group float-right mb-3">
-	  	<select class="form-control mr-2">
+	  	<select class="form-control mr-2" name="type">
 	  		<option>전체</option>
 	  		<option>제목+내용</option>
 	  		<option>작성자</option>
