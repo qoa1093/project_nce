@@ -12,8 +12,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<form>
-<div class="container" method="post" action="<%=request.getContextPath()%>/board/register">
+
+<form class="container" method="post" action="<%=request.getContextPath()%>/board/register">
 <h1>게시판</h1>
 	<div class="form-group">
 	  <label>제목</label>
@@ -22,7 +22,7 @@
 	<div class="form-group">
 	  <label>작성자</label>
 	  <input type="text" class="form-control" name="writer" >
-	  </div>
+	</div>
 	<div class="form-group">
 	  <label>내용</label>
 	  <textarea class="form-control" name="contents" rows="10">${board.contents}</textarea>
