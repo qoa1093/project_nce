@@ -18,8 +18,17 @@
 <c:forEach items="${list}" var="board"> 
 	${board.num} : ${board.title} : ${board.views} : ${board.writer} : ${board.registered } <br>
 </c:forEach>-->
-	<div class="container">
-	  <h2>게시판</h2>
+  <div class="container">
+	 <h2>게시판</h2>
+	 <form class="input-group float-right mb-3">
+	  	<select class="form-control mr-2">
+	  		<option>전체</option>
+	  		<option>제목+내용</option>
+	  		<option>작성자</option>
+	  	</select>
+	  	<input type="text" class="form-control">
+	  	<button class="btn btn-outline-primary">검색</button>
+	 </form>
 	 <c:if test="${list.size() != 0}">
 	  <table class="table table-bordered">
 	    <thead>
@@ -43,11 +52,23 @@
 	      </c:forEach>
 	    </tbody>
 	  </table>
+	  <ul class="pagination justify-content-center">
+	  	<c:if test="${pm.prev}">
+		    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.startPage-1}">이전</a></li>
+	  	</c:if>
+	  	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="index">
+	    	<li class="page-item <c:if test="${pm.criteria.page == index}">active</c:if>"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}">${index}</a></li>
+	    </c:forEach>
+	    
+	    <c:if test="${pm.next}">
+	    	<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.endPage+1}">다음</a></li>
+	    </c:if>
+	  </ul>
 	</c:if>
 	<c:if test="${list.size() == 0}">
 		<h3>게시글이 없습니다.</h3>
 	</c:if>
-	  <a href="<%=request.getContextPath()%>/board/register"><button class="btn btn-outline-success">글쓰기</button></a>
-	</div>
+	<a href="<%=request.getContextPath()%>/board/register"><button class="btn btn-outline-success">글쓰기</button></a>
+  </div>
 </body>
 </html>
