@@ -22,6 +22,7 @@ public class BoardController {
 	BoardService boardService;
 	@RequestMapping(value="/board/list")
 	public ModelAndView boardList(ModelAndView mv, Criteria cri) {
+		log.info(cri);
 		PageMaker pm = new PageMaker();
 		cri.setPerPageNum(2);// 한페이지에 숫자 두개씩 보여주기
 		pm.setCriteria(cri); //현재페이지 설정
