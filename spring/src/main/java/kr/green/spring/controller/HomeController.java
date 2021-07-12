@@ -1,17 +1,17 @@
 package kr.green.spring.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.service.MemberService;
 import kr.green.spring.vo.MemberVO;
-import lombok.Data;
 
 /**
  * Handles requests for the application home page.
@@ -39,7 +39,7 @@ public class HomeController {
 		mv.setViewName("signin");		
 		return mv;
 	}
-	@RequestMapping(value = "/signin", method = RequestMethod.POST)//post아니고 겟이라 처리안함
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	public ModelAndView signinPost(ModelAndView mv , MemberVO user) {	
 		//System.out.println(user);
 		//서비스에게 아이디와 비밀번호를 전달하면 해당 정보가 db에 있으면 
@@ -54,6 +54,7 @@ public class HomeController {
 		}else {
 			mv.setViewName("redirect:/signin"); //현재페이지에 있는 것 
 		}
+		mv.addObject("user",dbUser);
 		//화면을 직접 연결하지 않음
 		//다른 url를 실행시키는 방법 뒤에 내가 원하는 주소 쓰면 됨	
 		return mv;
@@ -65,7 +66,7 @@ public class HomeController {
 	}
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ModelAndView signupPost(ModelAndView mv, MemberVO user) {	
-		System.out.println(user);
+		//System.out.println(user);
 		//서비스에게 회원정보르 주면서 회원 가입하라고 일을 시키고, 회원가입 성공시 true
 		//실패하면 false를 알려달라고 요청
 		boolean isSignup = memberService.signup(user);
@@ -78,25 +79,33 @@ public class HomeController {
 		return mv;
 	}
 	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
-	public ModelAndView memberMypageGet(ModelAndView mv, String id) {	
-		System.out.println(id);
+	public ModelAndView memberMypageGet(ModelAndView mv/*, String id*/) {	
+		//System.out.println(id);
 		//서비스에게 아이디를 주면서 회원 정보를 가져오라고 시킴
-		MemberVO user = memberService.getMember(id);
-		System.out.println(user);
+		//MemberVO user = memberService.getMember(id);
+		//System.out.println(user);
 		//가져온 회원정보를 화면에 전달
-		mv.addObject("user",user);
+		//mv.addObject("user",user); //세션에서 가져온 로그인정보로 가져올수 있음
 		mv.setViewName("member/mypage");		
 		return mv;
 	}
 	@RequestMapping(value = "/member/mypage", method = RequestMethod.POST)
-	public ModelAndView memberMypagePost(ModelAndView mv, MemberVO user) {	
-		System.out.println(user);
+	public ModelAndView memberMypagePost(ModelAndView mv, MemberVO user, HttpServletRequest request) {	
+		//System.out.println(user);
 		//서비스에게 회원정보를 주면서 수정하라고 요청
-		memberService.updateMember(user);
+		//request에 있는 세션 안에 있는 로그인한 회원 정보를 가져옴
+		MemberVO sessionUser = memberService.getMember(request);
+		//세션에 로그인한 회원 정보가 있고, 세션에 있는 아이디와 수정할 아이디가 같으면 회원 정보 수정함 : 개발자도구 열어서 직접 수정하는걸 막아줌
+		if(sessionUser != null && sessionUser.getId().equals(user.getId())) {
+			MemberVO updateUser = memberService.updateMember(user);
+			if(updateUser != null) {
+				request.getSession().setAttribute("user", updateUser);
+			}
+		}
 		mv.setViewName("redirect:/member/mypage");		
 		return mv;
 	}
 	
 }
-// 지워도됨 안에 불필요 코드도 지움 
+
 
