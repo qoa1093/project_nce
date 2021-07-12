@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.springtest.dao.BoardDAO;
+import kr.green.springtest.pagination.Criteria;
 import kr.green.springtest.vo.BoardVO;
 
 
@@ -15,9 +16,9 @@ public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDao;
 	@Override
-	public ArrayList<BoardVO> getBoardList() {
+	public ArrayList<BoardVO> getBoardList(Criteria cri) {
 		// TODO Auto-generated method stub
-		return boardDao.getBoardList();
+		return boardDao.getBoardList(cri);
 	}
 
 	@Override
@@ -68,5 +69,11 @@ public class BoardServiceImp implements BoardService{
 		dbBoard.setContents(board.getContents());
 		dbBoard.setTitle(board.getTitle());
 		return boardDao.updateBoard(dbBoard);
+	}
+
+	@Override
+	public int getTotalCount(Criteria cri) {
+		
+		return boardDao.getTotalCount(cri);
 	}
 }
