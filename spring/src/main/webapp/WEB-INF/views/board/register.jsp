@@ -5,7 +5,7 @@
 <!doctype html> <!--  html파일 표준을 의미 -->
 <html>
 <head>
-	<title>게시글 등혹</title>
+	<title>게시글 등록</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -18,10 +18,10 @@
 	  <label>제목</label>
 	  <input type="text" class="form-control" name="title">
 	</div>
-	<div class="form-group">
+	<!-- <div class="form-group">
 	  <label>작성자</label>
-	  <input type="text" class="form-control" name="writer">
-	</div>
+	  <input type="text" class="form-control" name="writer" value="${user.id}" readonly>
+	</div>-->
 	<div class="form-group">
 	  <label>내용</label>
 	  <textarea type="text" class="form-control" rows="10" name="contents">${board.contents}</textarea>

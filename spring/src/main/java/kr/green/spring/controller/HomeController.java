@@ -13,16 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.green.spring.service.MemberService;
 import kr.green.spring.vo.MemberVO;
 
-/**
- * Handles requests for the application home page.
- */
+
 @Controller
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
+	/*
 	 * url 패턴 분석
 	 */
 	@Autowired
@@ -103,6 +100,13 @@ public class HomeController {
 			}
 		}
 		mv.setViewName("redirect:/member/mypage");		
+		return mv;
+	}
+	@RequestMapping(value = "/signout", method = RequestMethod.GET)
+	public ModelAndView signoutGet(ModelAndView mv,HttpServletRequest request) {
+		//세션에 있는 유저정보를 지워주고 홈으로 되돌아감 : 로그아웃 기능
+		request.getSession().removeAttribute("user");
+		mv.setViewName("redirect:/");		
 		return mv;
 	}
 	
