@@ -17,7 +17,8 @@
 	    <property name="url"
 	              value="jdbc:mysql://localhost:3306/spring_nce?useSSL=false&amp;serverTimezone=Asia/Seoul">
 	    </property> <!-- spring부분 나중에 파일 바뀌면 수정하는 부분임 -->
-	    <property name="username" value="green"></property>
+	     <!-- <property name="username" value="green"></property>--><!-- 집에서는 얘로 하고 학원에서는 밑에걸로하기 -->
+	    <property name="username" value="root"></property>
 	    <property name="password" value="cjgreen"></property>
 	</bean>
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
