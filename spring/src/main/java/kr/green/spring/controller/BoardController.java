@@ -112,7 +112,7 @@ public class BoardController {
 	public ModelAndView boardDelete(ModelAndView mv, Integer num, HttpServletRequest request) {
 		MemberVO user = memberService.getMember(request);
 		//서비스에게 게시글 번호를 주면서 삭제하라고 요청
-		boardService.deleteBoard(num);
+		boardService.deleteBoard(num, user);
 		mv.setViewName("redirect:/board/list");
 		return mv;
 	}
