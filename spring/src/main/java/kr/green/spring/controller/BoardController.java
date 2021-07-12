@@ -97,14 +97,15 @@ public class BoardController {
 	@RequestMapping(value="/board/modify", method=RequestMethod.POST)//등록화면은 겟, 실제 게시글 전송처리는(길어서) 포스트로
 	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board, HttpServletRequest request) {
 		//System.out.println(board);
-		//서비스에게 게시글을 주면서 수정하라고 요청
-		boardService.updateBoard(board);
 		//수정이 완료되면 detail로 이동
 		mv.addObject("num",board.getNum());
 		mv.setViewName("redirect:/board/detail");
 		MemberVO user = memberService.getMember(request);
 		if(!user.getId().equals(board.getWriter())) {
 			mv.setViewName("redirect:/board/list");
+		}else {
+			//서비스에게 게시글을 주면서 수정하라고 요청
+			boardService.updateBoard(board);			
 		}
 		return mv;
 	}
