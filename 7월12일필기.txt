@@ -1,0 +1,30 @@
+쌍태그는 상관없는데 단일태그인 경우 "" 처리를 위해 value값에 <c:out> 넣어주면 좋음
+
+docs-springframework-비밀번호 암호화
+
+pom 코드추가 security 파일 만들기 web security 파일 등록
+
+멤버서비스 imp에  4번 코드 붙여넣기
+
+Interceptor를 이용한 유저 정보 세션에 저장하기:로그인 유지
+
+url->controller넘어가기 전에 가로채는 역할을 함
+
+코드 복사 후 user(class)를 membervo
+
+servlet에 등록 후 jsp에 찍어서 확인해보기
+
+//db수정하기
+
+세션에 저장하면 리퀘스트를 통해 언제든 확인할 수 있음 
+
+db drop부분보기
+update 테이블명
+	set 
+		속성명1 = 값1,
+        속성명2 = 값2,
+        속성명 3 = 값3,
+        ...
+        [where 조건];
+
+DROP TABLE IF EXISTS `board`;
