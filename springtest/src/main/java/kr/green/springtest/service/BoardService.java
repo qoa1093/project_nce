@@ -2,8 +2,11 @@ package kr.green.springtest.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import kr.green.springtest.pagination.Criteria;
 import kr.green.springtest.vo.BoardVO;
+import kr.green.springtest.vo.MemberVO;
 
 public interface BoardService {
 
@@ -13,12 +16,17 @@ public interface BoardService {
 
 	int updateViews(Integer num);
 
-	void insertBoard(BoardVO board);
+	void insertBoard(BoardVO board, MemberVO user);
 
 	int deleteBoard(Integer num);
 
 	int updateBoard(BoardVO board);
 
 	int getTotalCount(Criteria cri);
+
+	
+
+	
+	
 
 }

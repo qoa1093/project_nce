@@ -2,6 +2,8 @@ package kr.green.springtest.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.green.springtest.dao.BoardDAO;
 import kr.green.springtest.pagination.Criteria;
 import kr.green.springtest.vo.BoardVO;
+import kr.green.springtest.vo.MemberVO;
 
 
 @Service
@@ -42,10 +45,14 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public void insertBoard(BoardVO board) {
-		if(board == null) {
+	public void insertBoard(BoardVO board, MemberVO user) {
+		if(board == null||board.getTitle().trim().length() == 0) {
 		return;
 		}
+		if(user == null || user.getId() == null || user.getId().trim().length() == 0) {
+			return;
+		}
+		board.setWriter(user.getId());
 		boardDao.insertBoard(board);
 	}
 
@@ -76,4 +83,5 @@ public class BoardServiceImp implements BoardService{
 		
 		return boardDao.getTotalCount(cri);
 	}
+
 }

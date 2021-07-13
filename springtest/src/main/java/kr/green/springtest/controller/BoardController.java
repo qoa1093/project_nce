@@ -2,17 +2,17 @@ package kr.green.springtest.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.green.springtest.pagination.Criteria;
-import kr.green.springtest.pagination.PageMaker;
-import kr.green.springtest.service.BoardService;
-import kr.green.springtest.vo.BoardVO;
+import kr.green.springtest.pagination.*;
+import kr.green.springtest.service.*;
+import kr.green.springtest.vo.*;
 import lombok.extern.log4j.Log4j;
 
 //@Repository
@@ -22,6 +22,8 @@ import lombok.extern.log4j.Log4j;
 public class BoardController {
 	@Autowired
 	BoardService boardService;
+	@Autowired
+	MemberService memberService;
 	
 	@RequestMapping(value="/list")
 	public ModelAndView list(ModelAndView mv, String msg, Criteria cri) {
@@ -54,9 +56,11 @@ public class BoardController {
 		return mv;
 	}
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public ModelAndView registerPost(ModelAndView mv, BoardVO board) {
+	public ModelAndView registerPost(ModelAndView mv, BoardVO board, HttpServletRequest r) {
 		log.info(board);
-		boardService.insertBoard(board);
+		MemberVO user = memberService.getMember(r);
+				
+		boardService.insertBoard(board, user);
 		mv.setViewName("redirect:/board/list");
 		return mv;
 	}
