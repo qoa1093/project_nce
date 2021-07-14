@@ -7,7 +7,7 @@
 <head>
 </head>
 <body>
-  <form class="container" method="post" action="<%=request.getContextPath()%>/board/register">
+  <form class="container" method="post" action="<%=request.getContextPath()%>/board/register" enctype="multipart/form-data">
 	<h2>게시글 등록</h2>
 	<div class="form-group">
 	  <label>제목</label>
@@ -21,6 +21,10 @@
 	  <label>내용</label>
 	  <textarea type="text" class="form-control" rows="10" name="contents">${board.contents}</textarea>
 	</div>
+	<div class="form-group">
+        <label>파일</label>
+        <input type="file" class="form-control" name="file"/>
+    </div>
 	<button type="submit" class="btn btn-outline-success">등록</button>	 
   </form>
 </body>
