@@ -28,12 +28,12 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView mv) {
-		mv.setViewName("main/home");
+		mv.setViewName("/template/main/home");
 		return mv;
 	}
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)//post아니고 겟이라 처리안함
 	public ModelAndView signinGet(ModelAndView mv) {	
-		mv.setViewName("member/signin");		
+		mv.setViewName("/template/member/signin");		
 		return mv;
 	}
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
@@ -83,7 +83,7 @@ public class HomeController {
 		//System.out.println(user);
 		//가져온 회원정보를 화면에 전달
 		//mv.addObject("user",user); //세션에서 가져온 로그인정보로 가져올수 있음
-		mv.setViewName("member/mypage");		
+		mv.setViewName("/template/member/mypage");		
 		return mv;
 	}
 	@RequestMapping(value = "/member/mypage", method = RequestMethod.POST)

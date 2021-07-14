@@ -47,7 +47,7 @@ public class BoardController {
 			}
 		}*/
 		mv.addObject("pm", pm);
-		mv.setViewName("board/list");
+		mv.setViewName("/template/board/list");
 		return mv;
 	}
 	@RequestMapping(value="/board/detail")
@@ -61,7 +61,7 @@ public class BoardController {
 		//가져온 게시글을 화면에 전달, 화면으로 보낼 이름은 board로
 		mv.addObject("board", board);
 		System.out.println(board);
-		mv.setViewName("board/detail");
+		mv.setViewName("/template/board/detail");
 		return mv;
 	}
 			//url에서 ?뒷부분은 화면에서 서버로 넘겨주는 데이터 -> 매개변수로 받기로 함
@@ -69,7 +69,7 @@ public class BoardController {
 	@RequestMapping(value="/board/register", method=RequestMethod.GET)//등록화면은 겟, 실제 게시글 전송처리는(길어서) 포스트로
 	public ModelAndView boardRegisterGet(ModelAndView mv) {
 
-		mv.setViewName("board/register");
+		mv.setViewName("/template/board/register");
 		return mv;
 	}
 	//화면에서 보내준 제목 작성자 내용을 받아서 콘솔에 출력
@@ -87,7 +87,7 @@ public class BoardController {
 	public ModelAndView boardModifyGet(ModelAndView mv, Integer num, HttpServletRequest request) { //내가 수정한게 아닌데 접근한 경우?
 		BoardVO board = boardService.getBoard(num);	
 		mv.addObject("board", board);
-		mv.setViewName("board/modify");
+		mv.setViewName("/template/board/modify");
 		MemberVO user = memberService.getMember(request);
 		if(board == null || !board.getWriter().equals(user.getId())) {
 			mv.setViewName("redirect:/board/list");
