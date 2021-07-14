@@ -28,12 +28,12 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView mv) {
-		mv.setViewName("home");
+		mv.setViewName("main/home");
 		return mv;
 	}
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)//post아니고 겟이라 처리안함
 	public ModelAndView signinGet(ModelAndView mv) {	
-		mv.setViewName("signin");		
+		mv.setViewName("member/signin");		
 		return mv;
 	}
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
@@ -58,7 +58,7 @@ public class HomeController {
 	}
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public ModelAndView signupGet(ModelAndView mv) {	
-		mv.setViewName("signup");		
+		mv.setViewName("member/signup");		
 		return mv;
 	}
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
