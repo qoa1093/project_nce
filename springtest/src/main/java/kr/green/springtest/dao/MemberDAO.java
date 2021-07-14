@@ -10,5 +10,7 @@ public interface MemberDAO {
 
 	public MemberVO getMember(@Param("id")String id);
 
+	public void updateMember(@Param("user")MemberVO sUser);
+
 
 }

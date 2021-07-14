@@ -37,7 +37,7 @@
 	</div>
 	<div class="input-group">
 		<a href="<%=request.getContextPath()%>/board/list" class="mr-2"><button class="btn btn-outline-danger">목록</button></a>
-		<c:if test="${board != null}">
+		<c:if test="${board != null && user.id == board.writer}">
 			<a href="<%=request.getContextPath()%>/board/modify?num=${board.num}" class="mr-2">
 				<button class="btn btn-outline-danger">수정</button>
 			</a>
@@ -56,7 +56,7 @@
 		
 	})
 	function printMsg(msg){
-		if(msg = '' || history.state){
+		if(msg=null||msg = '' || history.state){
 			return;
 		}
 		alert(msg);
