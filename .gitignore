@@ -3,6 +3,7 @@
 /bin/
 /.metadata/
 java_nce/src/accountbook/Plusme.java
+/Tomcat v9.0 Server at localhost-config/
 
 # Created by https://www.toptal.com/developers/gitignore/api/java-web,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=java-web,java
