@@ -21,11 +21,36 @@
 	  <label>내용</label>
 	  <textarea type="text" class="form-control" rows="10" name="contents">${board.contents}</textarea>
 	</div>
-	<div class="form-group">
+	<div class="form-group files">
         <label>파일</label>
-        <input type="file" class="form-control" name="file"/>
+        <input type="file" class="form-control" name="file" data=""/>
     </div>
 	<button type="submit" class="btn btn-outline-success">등록</button>	 
   </form>
+  <script type="text/javascript">
+   $(function(){
+	   $(document).on('change','input[name=file]',function(){
+		   var val = $(this).val();
+		   var str =  '<input type="file" class="form-control" name="file" data=""/>';
+		   var length = $('input[name=file]').length;
+		   var data = $(this).attr('data');
+		   //
+		   if(val == ''){
+			$(this).remove();
+			if(length == 3 && $('input[name=file]').last().val() != ''){
+			 	$('.files').append(str);				   
+			}
+		   }
+		   //input 태그를 추가해야 하는 경우
+		   else{
+			 if( length < 3 && data == ''){
+				 $('.files').append(str);
+			 }  
+			 $(this).attr('data', val);
+		   }
+		})
+   })
+  
+  </script>
 </body>
 </html>

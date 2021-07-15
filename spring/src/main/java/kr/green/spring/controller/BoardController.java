@@ -71,8 +71,8 @@ public class BoardController {
 		mv.addObject("board", board);
 		
 		//첨부파일 가져오기
-		FileVO file = boardService.getFileVO(num);
-		mv.addObject("file",file);
+		ArrayList<FileVO> fileList = boardService.getFileVOList(num);
+		mv.addObject("fileList",fileList);
 		//System.out.println(board);
 		mv.setViewName("/template/board/detail");
 		return mv;
@@ -87,7 +87,7 @@ public class BoardController {
 	}
 	//화면에서 보내준 제목 작성자 내용을 받아서 콘솔에 출력
 	@RequestMapping(value="/board/register", method=RequestMethod.POST)
-	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request, MultipartFile file) {
+	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVO board, HttpServletRequest request, MultipartFile [] file) {
 		MemberVO user = memberService.getMember(request);
 		board.setWriter(user.getId());
 		//서비스에게 게시글정보(제목,작성자,내용)을 주면서 게시글을 등록하라고 시킴
@@ -106,8 +106,8 @@ public class BoardController {
 			mv.setViewName("redirect:/board/list");
 		}
 		//첨부파일 가져오기
-		FileVO file = boardService.getFileVO(num);
-		mv.addObject("file",file);
+		ArrayList<FileVO> fileList = boardService.getFileVOList(num);
+		mv.addObject("fileList",fileList);
 		return mv;
 	}
 	@RequestMapping(value="/board/modify", method=RequestMethod.POST)//등록화면은 겟, 실제 게시글 전송처리는(길어서) 포스트로

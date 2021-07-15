@@ -26,8 +26,8 @@ import kr.green.spring.vo.MemberVO;
 public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDAO;
-	//private String uploadPath = "E:\\JAVA_NCE\\project_nce\\uploadfiles";
-	private String uploadPath = "C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
+	private String uploadPath = "E:\\JAVA_NCE\\project_nce\\uploadfiles";
+	//private String uploadPath = "C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
 
 	@Override
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
@@ -50,11 +50,14 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public void insertBoard(BoardVO board,  MultipartFile file){
+	public void insertBoard(BoardVO board,  MultipartFile [] file){
 		//다오에게 게시글 정보를 주면서 게시글 등록하라고 시킴
 		boardDAO.insertBoard(board); //게시글 추가하고나면 추가된 게시글번호 바로 가져오기 가능
-		//System.out.println("게시글번호"+ board.getNum());게시글번호 잘 가져오는지 확인함
-		insertFileVO(file, board.getNum());
+		if(file == null)
+			return;
+		for(MultipartFile tmp : file)
+			//System.out.println("게시글번호"+ board.getNum());게시글번호 잘 가져오는지 확인함
+			insertFileVO(tmp, board.getNum());
 	}
 
 	@Override
@@ -78,6 +81,7 @@ public class BoardServiceImp implements BoardService{
 		if(board.getValid() == null) {
 			board.setValid("I");
 		}
+		/*
 		FileVO fileVo = boardDAO.getFileVO(board.getNum());
 		//첨부파일이 추가되는 경우
 		if(fileVo == null && (file != null && file.getOriginalFilename().length() != 0)) {
@@ -93,7 +97,7 @@ public class BoardServiceImp implements BoardService{
 			//업로드 되었던 파일을 삭제
 			deleteFileVO(fileVo);
 			insertFileVO(file, board.getNum());			
-		}
+		}*/
 		return boardDAO.updateBoard(board);
 	}
 
@@ -116,10 +120,10 @@ public class BoardServiceImp implements BoardService{
 		return boardDAO.getTotalCount(cri);
 	}
 	@Override
-	  public FileVO getFileVO(Integer num){
+	  public ArrayList<FileVO> getFileVOList(Integer num){
 	   if(num == null)
 	   	return null;
-	 return boardDAO.getFileVO(num);
+	 return boardDAO.getFileVOList(num);
 	  }
 
 	@Override

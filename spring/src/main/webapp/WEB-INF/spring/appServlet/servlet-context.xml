@@ -68,8 +68,8 @@
 		<beans:constructor-arg value="서버에 저장할 경로"></beans:constructor-arg>
 		이부분도 집갈때마다 수정하기...
 		-->
-	    <!-- <beans:constructor-arg value="E:\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg> 이부분 학원가면 수정하기-->
-	    <beans:constructor-arg value="C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>
+	    <beans:constructor-arg value="E:\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg> <!--  이부분 학원가면 수정하기
+	    <beans:constructor-arg value="C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>-->
 	</beans:bean>
 
 	
