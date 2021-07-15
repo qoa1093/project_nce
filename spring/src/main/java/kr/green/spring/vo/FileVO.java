@@ -1,5 +1,8 @@
 package kr.green.spring.vo;
 
+import lombok.Data;
+
+@Data
 public class FileVO {
 	private int num;
 	private int board;

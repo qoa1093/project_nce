@@ -1,9 +1,17 @@
 package kr.green.spring.service;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +26,8 @@ import kr.green.spring.vo.MemberVO;
 public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDAO;
-	private String uploadPath = "E:\\JAVA_NCE\\project_nce\\uploadfiles";
+	//private String uploadPath = "E:\\JAVA_NCE\\project_nce\\uploadfiles";
+	private String uploadPath = "C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
 
 	@Override
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
@@ -45,16 +54,7 @@ public class BoardServiceImp implements BoardService{
 		//다오에게 게시글 정보를 주면서 게시글 등록하라고 시킴
 		boardDAO.insertBoard(board); //게시글 추가하고나면 추가된 게시글번호 바로 가져오기 가능
 		//System.out.println("게시글번호"+ board.getNum());게시글번호 잘 가져오는지 확인함
-		if(file !=null && file.getOriginalFilename().length() != 0) {
-			try { // 트라이 캐치로 감싸줌 : 예외처리
-			String filename = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-			FileVO fileVo = new FileVO(board.getNum(), filename,file.getOriginalFilename());
-			boardDAO.insertFile(fileVo);
-			}catch(Exception e) {
-				e.printStackTrace();
-				System.out.println("첨부파일 업로드 중 예외 발생");
-			}
-		}
+		insertFileVO(file, board.getNum());
 	}
 
 	@Override
@@ -71,12 +71,28 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public int updateBoard(BoardVO board) {
-		if(board == null) {
+	public int updateBoard(BoardVO board, MultipartFile file) {
+		if(board == null || board.getNum() <= 0) {
 			return 0;
 		}
 		if(board.getValid() == null) {
 			board.setValid("I");
+		}
+		FileVO fileVo = boardDAO.getFileVO(board.getNum());
+		//첨부파일이 추가되는 경우
+		if(fileVo == null && (file != null && file.getOriginalFilename().length() != 0)) {
+			insertFileVO(file, board.getNum());
+		}				
+		//첨부파일이 삭제되는 경우
+		else if(fileVo != null && (file != null && file.getOriginalFilename().length() == 0)) {
+			//업로드 되었던 파일을 삭제
+			deleteFileVO(fileVo);
+		}
+		//첨부파일이 수정되는 경우
+		else if(fileVo != null &&(file != null && file.getOriginalFilename().length() != 0)) {
+			//업로드 되었던 파일을 삭제
+			deleteFileVO(fileVo);
+			insertFileVO(file, board.getNum());			
 		}
 		return boardDAO.updateBoard(board);
 	}
@@ -98,5 +114,55 @@ public class BoardServiceImp implements BoardService{
 	public int getTotalCount(Criteria cri) {
 		
 		return boardDAO.getTotalCount(cri);
+	}
+	@Override
+	  public FileVO getFileVO(Integer num){
+	   if(num == null)
+	   	return null;
+	 return boardDAO.getFileVO(num);
+	  }
+
+	@Override
+	public ResponseEntity<byte[]> downloadFile(String fileName) throws IOException {
+		ResponseEntity<byte[]> entity = null;
+		InputStream in = null;
+		 try{
+		        String FormatName = fileName.substring(fileName.lastIndexOf(".")+1);
+		        HttpHeaders headers = new HttpHeaders();
+		        in = new FileInputStream(uploadPath+fileName);
+		        fileName = fileName.substring(fileName.indexOf("_")+1);
+		        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		        headers.add("Content-Disposition",  "attachment; filename=\"" 
+					+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+		        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+		    }catch(Exception e) {
+		        e.printStackTrace();
+		        entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		    }finally {
+		        in.close();
+		    }
+		return entity;
+	}
+	//메소드만들기
+	//파일을 서버에 업로드한 후 num게시글에 db애 추가하는 메소드
+	private void insertFileVO(MultipartFile file, int num) {
+		if(file !=null && file.getOriginalFilename().length() != 0) {
+			try { // 트라이 캐치로 감싸줌 : 예외처리
+				String filename = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				FileVO fileVo = new FileVO(num, filename,file.getOriginalFilename());
+				boardDAO.insertFile(fileVo);
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("첨부파일 업로드 중 예외 발생");
+			}
+		}
+	}
+	//서버에 업로드 된 파일을 삭제 후 db에 삭제처리하는 메소드
+	private void deleteFileVO(FileVO file) {
+		File ftmp = new File(uploadPath+file.getName());
+		if(ftmp.exists()) {
+			ftmp.delete();
+		}
+		boardDAO.deleteFileVO(file.getNum());
 	}
 }
