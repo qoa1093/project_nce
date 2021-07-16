@@ -111,7 +111,7 @@ public class BoardController {
 		return mv;
 	}
 	@RequestMapping(value="/board/modify", method=RequestMethod.POST)//등록화면은 겟, 실제 게시글 전송처리는(길어서) 포스트로
-	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board, HttpServletRequest request, MultipartFile file) {
+	public ModelAndView boardModifyPost(ModelAndView mv, BoardVO board, HttpServletRequest request, MultipartFile[] file, Integer[] fileNum) {
 		//System.out.println(board);
 		//수정이 완료되면 detail로 이동
 		mv.addObject("num",board.getNum());
@@ -121,7 +121,7 @@ public class BoardController {
 			mv.setViewName("redirect:/board/list");
 		}else {
 			//서비스에게 게시글을 주면서 수정하라고 요청
-			boardService.updateBoard(board, file); //업로드할때 파일 붙여넣음			
+			boardService.updateBoard(board, file, fileNum); //업로드할때 파일 붙여넣음			
 			
 		}
 		return mv;
