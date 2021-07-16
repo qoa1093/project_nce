@@ -34,7 +34,7 @@ public class BoardController {
 		int totalCount = boardService.getTotalCount(cri);;
 		PageMaker pm = new PageMaker(totalCount, 2, cri);
 		mv.addObject("pm", pm);
-		log.info(pm);
+		//log.info(pm);
 		mv.addObject("list", list);
 		mv.addObject("msg", msg);
 		mv.setViewName("/template/board/list");
@@ -44,10 +44,12 @@ public class BoardController {
 	public ModelAndView detail(ModelAndView mv, Integer num, String msg) {
 		boardService.updateViews(num);
 		BoardVO board = boardService.getBoard(num);
-		log.info(board);
+		//log.info(board);
 		mv.addObject("board",board);
 		mv.addObject("msg",msg);
-		//Log.info(num);
+		ArrayList<FileVO> fileList = boardService.getFileList(num);
+		mv.addObject("fileList", fileList);
+		log.info("파일리스트는"+fileList);
 		mv.setViewName("/template/board/detail");
 		return mv;
 	}
