@@ -17,7 +17,7 @@ public interface BoardService {
 
 	BoardVO getBoard(Integer num);
 
-	void insertBoard(BoardVO board,  MultipartFile [] file);
+	void insertBoard(BoardVO board, MultipartFile [] file);
 
 	int updateViews(Integer num);
 
