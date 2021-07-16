@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.springtest.pagination.*;
@@ -36,7 +37,7 @@ public class BoardController {
 		log.info(pm);
 		mv.addObject("list", list);
 		mv.addObject("msg", msg);
-		mv.setViewName("board/list");
+		mv.setViewName("/template/board/list");
 		return mv;
 	}
 	@RequestMapping(value="/detail")
@@ -47,34 +48,33 @@ public class BoardController {
 		mv.addObject("board",board);
 		mv.addObject("msg",msg);
 		//Log.info(num);
-		mv.setViewName("board/detail");
+		mv.setViewName("/template/board/detail");
 		return mv;
 	}
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public ModelAndView registerGet(ModelAndView mv) {	
-		mv.setViewName("board/register");
+		mv.setViewName("/template/board/register");
 		return mv;
 	}
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public ModelAndView registerPost(ModelAndView mv, BoardVO board, HttpServletRequest r) {
+	public ModelAndView registerPost(ModelAndView mv, BoardVO board, HttpServletRequest r, MultipartFile[] files) {
 		log.info(board);
 		MemberVO user = memberService.getMember(r);
-				
-		boardService.insertBoard(board, user);
+		boardService.insertBoard(board, user,files);
 		mv.setViewName("redirect:/board/list");
 		return mv;
 	}
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public ModelAndView modifyGet(ModelAndView mv, Integer num) {
-		log.info("/board/modify : "+num);
+		log.info("/template//board/modify : "+num);
 		BoardVO board = boardService.getBoard(num);
 		mv.addObject("board", board);
-		mv.setViewName("board/modify");
+		mv.setViewName("/template/board/modify");
 		return mv;
 	}
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
 	public ModelAndView modifyPost(ModelAndView mv ,BoardVO board, HttpServletRequest r) {
-		log.info("/board/modify: POST : "+ board);
+		log.info("/template//board/modify: POST : "+ board);
 		MemberVO user = memberService.getMember(r);
 		int res = boardService.updateBoard(board, user);
 		String msg="";

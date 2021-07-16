@@ -1,16 +1,17 @@
 package kr.green.springtest.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.green.springtest.dao.BoardDAO;
 import kr.green.springtest.pagination.Criteria;
+import kr.green.springtest.utils.UploadFileUtils;
 import kr.green.springtest.vo.BoardVO;
+import kr.green.springtest.vo.FileVO;
 import kr.green.springtest.vo.MemberVO;
 
 
@@ -18,6 +19,9 @@ import kr.green.springtest.vo.MemberVO;
 public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDao;
+	private String uploadPath="E:\\JAVA_NCE\\project_nce\\uploadfiles";
+	//private String uploadPath="C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
+	
 	@Override
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
 		// TODO Auto-generated method stub
@@ -45,7 +49,7 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public void insertBoard(BoardVO board, MemberVO user) {
+	public void insertBoard(BoardVO board, MemberVO user,  MultipartFile[] files) {
 		if(board == null||board.getTitle().trim().length() == 0) {
 		return;
 		}
@@ -54,7 +58,27 @@ public class BoardServiceImp implements BoardService{
 		}
 		board.setWriter(user.getId());
 		boardDao.insertBoard(board);
-	}
+		
+		if(files == null || files.length == 0) {
+			return;
+		}
+		for(MultipartFile file : files) {
+				if(file != null && file.getOriginalFilename().length() != 0) {
+					try {
+						//첨부파일을 업로드한 후 경로를 반환해서 ori_name에 저장함
+						String name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+						//첨부파일 객체 생성
+						FileVO fvo = new FileVO(board.getNum(), name, file.getOriginalFilename());
+						//DB에 첨부파일 정보 추가
+						boardDao.insertFile(fvo);
+					} catch (Exception e) {
+						//
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	
 
 	@Override
 	public int deleteBoard(Integer num,MemberVO user) {

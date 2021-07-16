@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<form class="container" method="post" action="<%=request.getContextPath()%>/board/register">
+<form class="container" method="post" action="<%=request.getContextPath()%>/board/register" enctype="multipart/form-data">
 <h1>게시판</h1>
 	<div class="form-group">
 	  <label>제목</label>
@@ -22,6 +22,12 @@
 	<div class="form-group">
 	  <label>내용</label>
 	  <textarea class="form-control" name="contents" rows="10">${board.contents}</textarea>
+	</div>
+	<div class="form-group">
+	  <label>첨부파일</label>
+	  <input type="file" class="form-control" name="files" >
+	  <input type="file" class="form-control" name="files" >
+	  <input type="file" class="form-control" name="files" >
 	</div>
 	<button class="btn btn-outline-success">등록</button>
 	<a href="<%=request.getContextPath()%>/board/list"><button type="button" class="btn btn-outline-danger">목록</button></a>

@@ -23,7 +23,7 @@ public class MemberController {
 	public ModelAndView signupGet(ModelAndView mv) {
 		//MemberVO user = new MemberVO(); 아래 매개변수MemberVO user와 동일 
 		//System.out.println(user.getId().trim().length());
-		mv.setViewName("member/signup");
+		mv.setViewName("/template/member/signup");
 		return mv;
 	}
 	@PostMapping(value="/signup")// ,메소드=post 쓴거랑 똑같음 requestmapping 대신 씀
@@ -38,7 +38,7 @@ public class MemberController {
 	
 	@GetMapping(value = "/signin")
 	public ModelAndView signinGet(ModelAndView mv) {
-		mv.setViewName("member/signin");
+		mv.setViewName("/template/member/signin");
 		//log.info(mv);
 		return mv;
 	}
@@ -54,7 +54,7 @@ public class MemberController {
 	
 	@GetMapping(value = "/member/mypage")
 	public ModelAndView memberMypageGet(ModelAndView mv) {
-		mv.setViewName("member/mypage");
+		mv.setViewName("/template/member/mypage");
 		return mv;
 	}
 	@PostMapping(value = "/member/mypage")

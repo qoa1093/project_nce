@@ -28,6 +28,12 @@
 	  <textarea class="form-control" name="contents" rows="10">${board.contents}</textarea>
 	</div>
 	<input type="hidden" name="num" value="${board.num}">
+	<div class="form-group">
+	  <label>첨부파일 등록</label>
+	  <input type="file" class="form-control" name="file" >
+	  <input type="file" class="form-control" name="file" >
+	  <input type="file" class="form-control" name="file" >
+	</div>
 	<button class="btn btn-outline-success">등록</button>
 	<a href="<%=request.getContextPath()%>/board/list"><button type="button" class="btn btn-outline-danger">목록</button></a>
 
