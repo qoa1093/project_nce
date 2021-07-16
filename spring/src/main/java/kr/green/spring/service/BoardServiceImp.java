@@ -110,6 +110,16 @@ public class BoardServiceImp implements BoardService{
 		}
 		//가져온 게시글의 valid값을 D로 수정
 		board.setValid("D");
+		//첨부파일 삭제
+		//1.해당 게시글과 일치하는 첨부파일 정보들을 가져옴
+		ArrayList<FileVO> fileList = boardDAO.getFileVOList(num);
+		if(fileList != null && fileList.size() != 0) {
+			for(FileVO tmp : fileList) {
+				deleteFileVO(tmp);
+			}
+		}
+		//2.반복문으로 하나씩 삭제처리
+		
 		//다오에게 게시글 정보를 주면서 수정하라고 시킨 후 정수값을 리턴
 		return boardDAO.updateBoard(board);
 	}
