@@ -1,9 +1,16 @@
 package kr.green.springtest.service;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +26,8 @@ import kr.green.springtest.vo.MemberVO;
 public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDao;
-	private String uploadPath="E:\\JAVA_NCE\\project_nce\\uploadfiles";
-	//private String uploadPath="C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
+	//private String uploadPath="E:\\JAVA_NCE\\project_nce\\uploadfiles";
+	private String uploadPath="C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
 	
 	@Override
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
@@ -63,19 +70,7 @@ public class BoardServiceImp implements BoardService{
 			return;
 		}
 		for(MultipartFile file : files) {
-				if(file != null && file.getOriginalFilename().length() != 0) {
-					try {
-						//첨부파일을 업로드한 후 경로를 반환해서 ori_name에 저장함
-						String name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-						//첨부파일 객체 생성
-						FileVO fvo = new FileVO(board.getNum(), name, file.getOriginalFilename());
-						//DB에 첨부파일 정보 추가
-						boardDao.insertFile(fvo);
-					} catch (Exception e) {
-						//
-						e.printStackTrace();
-					}
-				}
+				insertFile(file, board.getNum());
 			}
 		}
 	
@@ -90,23 +85,53 @@ public class BoardServiceImp implements BoardService{
 			return 0;
 		if(user ==null|| !user.getId().equals(board.getWriter()))
 			return -1;
-		
+		//게시글에 있는 첨부파일을 가져옴
+		ArrayList<FileVO> fileList = boardDao.getFileList(num);
+		//첨부파일들을 반복문을 이용하여 하나씩 삭제처리(이때 서버에 있는 파일을 삭제)
+		if(fileList != null & fileList.size() != 0) {
+			for(FileVO file : fileList) {
+				deleteFile(file);
+			}
+		}
 		board.setValid("D");
 		return boardDao.updateBoard(board);
 		
 	}
 
 	@Override
-	public int updateBoard(BoardVO board,  MemberVO user) {
-		if(board == null) {
+	public int updateBoard(BoardVO board,  MemberVO user, MultipartFile[] files, Integer[] filenums) {
+		if(board == null || board.getNum() <= 0) {
 			return 0;
 		}
 		if(user == null) {
 			return -1;
 		}
 		BoardVO dbBoard = boardDao.getBoard(board.getNum());
-		if(!user.getId().equals(dbBoard.getWriter())) {
+		if(dbBoard == null || !user.getId().equals(dbBoard.getWriter())) {
 			return -1;
+		}
+		//기존 첨부파일 중 정보가 넘어오지 않는 첨부파일 삭제(화면에서 첨부파일 옆에 있는 엑스버튼 클릭)
+		//기존 첨부파일 가져옴
+		ArrayList<FileVO> dbFileList = boardDao.getFileList(dbBoard.getNum());
+		//화면에서 가져온 첨부파일을 배열에서 리스트로 변경(리스트에서 제공하는 contains를 이용하기 위함)
+		ArrayList<Integer> arrayFilenums = new ArrayList<Integer>();
+		if(filenums != null) {
+			for(int tmp : filenums) {
+				arrayFilenums.add(tmp);
+			}
+		}
+		//기존 첨부파일 중에서 화면에서 가져온 첨부파일에 번호가 없으면 해당 첨부파일 삭제를 함
+		for(FileVO tmp : dbFileList) {
+			if(arrayFilenums.contains(tmp.getNum())) {
+				deleteFile(tmp);
+			}
+		}
+		
+		//새로운 첨부파일 추가
+		if(files != null && files.length != 0) {
+			for(MultipartFile file : files) {
+				insertFile(file, board.getNum());				
+			}
 		}
 		dbBoard.setContents(board.getContents());
 		dbBoard.setTitle(board.getTitle());
@@ -124,6 +149,52 @@ public class BoardServiceImp implements BoardService{
 		if(num == null)
 			return null;
 		return boardDao.getFileList(num);
+	}
+
+	@Override
+	public ResponseEntity<byte[]> downloadFile(String fileName) throws Exception{
+		InputStream in = null;
+	    ResponseEntity<byte[]> entity = null;
+	    try{
+	        String FormatName = fileName.substring(fileName.lastIndexOf(".")+1);
+	        HttpHeaders headers = new HttpHeaders();
+	        in = new FileInputStream(uploadPath+fileName);
+
+	        fileName = fileName.substring(fileName.indexOf("_")+1);
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	        headers.add("Content-Disposition",  "attachment; filename=\"" 
+				+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+	        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+	    }finally {
+	        in.close();
+	    }
+	    return entity;
+	}
+	private void deleteFile(FileVO file) {
+		//서버에 있는 파일을 삭제 java.io.로 임폴트
+		File f = new File(uploadPath + file.getName());
+		if(f.exists()) {
+			f.delete();
+		}
+		//DB에 첨부파일 정보를 삭제 처리
+		boardDao.deleteFile(file.getNum());
+	}
+	private void insertFile(MultipartFile file, int num) {
+		if(file != null && file.getOriginalFilename().length() != 0) {
+			try {
+				//첨부파일을 업로드한 후 경로를 반환해서 ori_name에 저장함
+				String name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				//첨부파일 객체 생성
+				FileVO fvo = new FileVO(num, name, file.getOriginalFilename());
+				//DB에 첨부파일 정보 추가
+				boardDao.insertFile(fvo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

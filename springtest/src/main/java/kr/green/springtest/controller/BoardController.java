@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -68,17 +70,21 @@ public class BoardController {
 	}
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public ModelAndView modifyGet(ModelAndView mv, Integer num) {
-		log.info("/template//board/modify : "+num);
+		//log.info("/template//board/modify : "+num);
 		BoardVO board = boardService.getBoard(num);
 		mv.addObject("board", board);
+		//첨부파일 가져옴
+		ArrayList<FileVO> fileList = boardService.getFileList(num);
+		//화면에 첨부파일 전송
+		mv.addObject("fileList", fileList);
 		mv.setViewName("/template/board/modify");
 		return mv;
 	}
-	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public ModelAndView modifyPost(ModelAndView mv ,BoardVO board, HttpServletRequest r) {
-		log.info("/template//board/modify: POST : "+ board);
+	@RequestMapping(value="/modify", method=RequestMethod.POST) //files는 모디파이의 인풋창 files와 맞춰줌
+	public ModelAndView modifyPost(ModelAndView mv ,BoardVO board, HttpServletRequest r, MultipartFile[] files, Integer[] filenums) {
+		//log.info("/template//board/modify: POST : "+ board);
 		MemberVO user = memberService.getMember(r);
-		int res = boardService.updateBoard(board, user);
+		int res = boardService.updateBoard(board, user, files, filenums);
 		String msg="";
 		mv.setViewName("redirect:/board/detail");
 		if(res == 1)
@@ -104,9 +110,14 @@ public class BoardController {
 			mv.addObject("msg", "게시글이 없거나 이미 삭제되었습니다.");
 		}else if(res == -1){
 			mv.addObject("잘못된 접근입니다.");
-		}
+		}		
 		mv.setViewName("redirect:/board/list");
 		return mv;
+	}
+	@ResponseBody
+	@RequestMapping("board/download")
+	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
+	    return boardService.downloadFile(fileName);		
 	}
 	
 	

@@ -2,8 +2,7 @@ package kr.green.springtest.service;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.green.springtest.pagination.Criteria;
@@ -23,11 +22,15 @@ public interface BoardService {
 
 	int deleteBoard(Integer num,MemberVO user);
 
-	int updateBoard(BoardVO board, MemberVO user);
+	int updateBoard(BoardVO board, MemberVO user, MultipartFile[] files, Integer[] filenums);
 
 	int getTotalCount(Criteria cri);
 
 	ArrayList<FileVO> getFileList(Integer num);
+
+	ResponseEntity<byte[]> downloadFile(String fileName)throws Exception;
+
+
 
 	
 
