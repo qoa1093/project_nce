@@ -58,7 +58,7 @@ public class HomeController {
 	}
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public ModelAndView signupGet(ModelAndView mv) {	
-		mv.setViewName("member/signup");		
+		mv.setViewName("/template/member/signup");		
 		return mv;
 	}
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)

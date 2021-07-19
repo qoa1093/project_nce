@@ -5,6 +5,9 @@
 <!doctype html> <!--  html파일 표준을 의미 -->
 <html>
 <head>
+	<!-- include summernote css/js -->
+ 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
   <form class="container" method="post" action="<%=request.getContextPath()%>/board/register" enctype="multipart/form-data">
@@ -19,7 +22,7 @@
 	</div>-->
 	<div class="form-group">
 	  <label>내용</label>
-	  <textarea type="text" class="form-control" rows="10" name="contents">${board.contents}</textarea>
+  		<textarea id="summernote" name="contents"></textarea>
 	</div>
 	<div class="form-group files">
         <label>파일</label>
@@ -49,6 +52,11 @@
 			 $(this).attr('data', val);
 		   }
 		})
+	   $('#summernote').summernote({
+	        placeholder: 'Hello Bootstrap 4',
+	        tabsize: 2,
+	        height: 400
+	      });
    })
   
   </script>
