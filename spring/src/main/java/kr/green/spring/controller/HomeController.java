@@ -6,8 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.service.MemberService;
@@ -108,6 +112,13 @@ public class HomeController {
 		request.getSession().removeAttribute("user");
 		mv.setViewName("redirect:/");		
 		return mv;
+	}
+	@ResponseBody
+	@GetMapping(value = "/member/idcheck/{id}")//경로에 있는 변수 //가져와서 문자열로 저장
+	public String memberIdcheckGet(@PathVariable("id") String id) {
+		MemberVO user = memberService.getMember(id);
+		String res = user != null? "IMPOSSIBLE" : "POSSIBLE";
+		return res;
 	}
 	
 }

@@ -21,6 +21,7 @@
 	<div class="form-group">
 	  <label>아이디</label>
 	  <input type="text" class="form-control" name="id">
+	  <button id="dupCheck" type="button" class="btn btn-outline-success">아이디 중복확인체크</button>
 	</div>
 	<div class="form-group">
 	  <label>비밀번호</label>
@@ -50,6 +51,24 @@
 </form>
 <script type="text/javascript">
 $(function(){
+	$('#dupCheck').click(function(){
+		var id = $('[name=id]').val();
+		$.ajax({
+			type : 'get',
+			url : '<%=request.getContextPath()%>/member/idcheck/' + id,
+			success : function(result, status, xhr){
+				//console.log(result);
+				if(result == 'POSSIBLE')
+					alert('사용가능한 아이디입니다.')
+				else
+					alert('사용 불가능한 아이디입니다.')
+			},
+			error : function(xhr,status,e){
+				
+			}
+			
+		})
+	})
     $("#signup").validate({
         rules: {
             id: {
