@@ -1,0 +1,88 @@
+ajax란 Asynchronous javaScript and XML의 약자입니다
+ajax는 빠르게 동작하는 동적인 웹페이지를 만들기 위한 개발 기법의 하나입니다
+ajax는 웹페이지 전체를 다시 로딩하지 않고도 웹페이지의 일부분만을 갱신할 수 있습니다
+즉 ajax를 이용하면 백그라운드 영역에서 서버와 통신하여
+그 결과를 웹 페이지의 일부분에만 표시할 수 있습니다
+
+json(javascript object notation)은 속성-값 쌍 또는 "키-값 쌍"으로 이루어진 데이터 오브젝트를 전달하기 ㅜ이해 인간이 읽을 수 있는 텍스트를 사용하는 개방형 표준 포맷이다.
+
+@RestController = @Controller + @ResponseBody
+@ResponseBody : 서버에서 전송하는 데이터가 화면이 아닌 데이터 자체가 됨
+
+------------------------------------------------------
+pom.xml
+그룹아이디/버전/아티팩트 지우고 입력하기
+
+com.fasterxml.jackson.core
+
+jackson-databind
+
+2.9.6
+
+
+디펜더시 복사하고 
+
+jackson.dataformat
+-dataformat-xml
+
+++
+
+com.google.code.gson
+gson
+2.8.2
+
+++
+
+회원가입페이지
+
+
+//에러 : post 404 찾을수없음 -> ?
+
+-----------------------------------------------
+signin.jsp 스크립트부분
+포스트는 숨겨서 보내야하기 때문에 데이터 값을 전송해야할 정보가 필요함
+{속성 : 키값, ~};
+
+-------------------------------------------
+추천 기능
+
+추천을 누르면 추천이 됨. 이미 추천되어있으면 추천을 취소
+비추천을 누르면 비추천이 됨. 이미 비추되어있으면 비추를 취소
+
+recommend(추천)
+- 기본키 num
+- board : 게시글번호
+- id : 사용자
+- state: 추천/비추천/아무것도아닌지
+
+-------------------------
+
+select *,
+ if(a.up is null,0,a.up)as up,
+ if(b.down is null,0,b.down)as down from board
+//게시글과 검색으로 만든 가상의 테이블이 교차하는 내용은 1줄 
+//그냥 조인을 하면 겹치는 부분만 찾음
+//left를 넣어주어야 아닌 게시글도 같이 검색됨
+left join (select count(*) as up, board from recommend where state = 1 group by board)
+	as a on num = a.board
+left join (select count(*) as down, board from recommend where state = -1 group by board)
+	as b on num = b.board
+------------------------
+db에서 인코딩 맞춰줘야함
+1. 테이블 만들 때 외래키로 가져오는 테이블의 첫번째->ddl 누르면 생성쿼리 뜸
+2. 외래키 테이블의 첫번째 정보 눌러서 인코딩 정보 확인하고 테이블 만들때 테이블 네임 밑에서 찾아서 지정해주기
+
+------------------------
+async
+비동기화 : 앞작업 끝나길 기다리는게 아니라 다음작업을 함 즉 ajax실행후 작업이 끝나는것과 상관없이 이후 코드가 바로 실행됨
+동기화 : 앞작업 모두 끝나고 다음작업 시작
+
+비동기 : (ajax)작업이 끝날 때까지 기다리지 않음
+동기 : 작업이 끝날 때 까지 기다림
+--------------------------
+
+wsss. tistory : 참고해볼것
+
+
+
+ 
