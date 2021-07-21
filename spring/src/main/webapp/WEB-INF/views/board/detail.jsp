@@ -5,6 +5,7 @@
 <!doctype html> <!--  html파일 표준을 의미 -->
 <html>
 <head>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/reply.js"></script>
 </head>
 <body>
 <c:if test="${board != null}">
@@ -47,11 +48,11 @@
 			<label>댓글</label>
 			<div class="contents">
 				<div class="reply-list">
-					<div class="form-group">
-						<label>작성자</label>
-						<div class="form-control">내용</div>
-					</div>
+					
 				</div>
+				<ul class="pagination justify-content-center">
+				  
+				</ul>
 				<div class="reply-box form-group">
 					<textarea class="reply-input form-control mb-2"></textarea>
 					<button type="button" class="reply-btn btn btn-outline-success">등록</button>
@@ -118,6 +119,101 @@
 			})
 	 })
  })
+ 
+ $(function(){
+	$('.reply-btn').click(function(){
+		var rp_bd_num = '${board.num}';
+		var rp_me_id = '${user.id}';
+		var rp_content = $('.reply-input').val();
+		if(rp_me_id == ''){
+			alert('댓글을 달려면 로그인 하세요.');
+			return;
+		}
+		var data = {'rp_bd_num'  : rp_bd_num,
+					'rp_me_id'   : rp_me_id,
+					'rp_content' : rp_content};
+		$.ajax({
+			 type : 'post',
+			 url : '<%=request.getContextPath()%>/reply/ins',
+			 data : JSON.stringify(data),
+			 contentType : "application/json; charset=utf-8",
+			 success : function(result, status, xhr){
+					if(result == 'ok'){
+						alert('댓글 등록이 완료되었습니다.');
+						readReply('${board.num}',1);
+						$('.reply-input').val('');
+					}
+				},
+				error : function(xhr,status,e){
+					
+				}
+		 })
+	})
+	readReply('${board.num}',1);
+	$(document).on('click','.pagination .page-item', function(){
+		var page = $(this).attr('data');
+		readReply('${board.num}',page);
+		console.log(1);
+	})
+	$(document).on('click','.del-btn', function(){
+		var rp_num = $(this).attr('data');
+		$.ajax({
+			 type : 'post',
+			 url : '<%=request.getContextPath()%>/reply/del',
+			 data : JSON.stringify({'rp_num' : rp_num}),
+			 contentType : "application/json; charset=utf-8",
+			 success : function(result, status, xhr){
+					console.log(result);
+					alert('댓글 삭제가 완료되었습니다.');
+					readReply('${board.num}',1);
+			 },
+			 error : function(xhr,status,e){
+					
+			 }
+		 })
+	})
+})
+function readReply(rp_bd_num, page){
+	 $.ajax({
+		 type : 'get',
+		 url : '<%=request.getContextPath()%>/reply/list/'+rp_bd_num + '/' + page,
+		 dataType :"json",
+		 success : function(result, status, xhr){
+			 var list = result['list'];
+			 var str = '';
+			 for(i=0;i<list.length;i++){
+				 str += 
+					 	'<div class="form-group">'+
+				 		'<label>'+list[i].rp_me_id+'</label>'+
+				 		'<div class="form-control">'+list[i].rp_content+'</div>'+				 		
+				 		'</div>';
+				 if('${user.id}' == list[i].rp_me_id)
+					 str += '<button class="btn btn-outline-danger del-btn" data="'+list[i].rp_num+'">삭제</button>';
+			 }
+			 $('.reply-list').html(str);
+			var pm = result['pm'];	
+			var pmStr = '';
+			if(pm['prev']){
+			  pmStr += '<li class="page-item" data="'+(pm['startPage']-1)+'"><a class="page-link" href="javascript:void(0);">이전</a></li>';				
+			}
+			for(i=pm['startPage'];i<=pm['endPage']; i++){
+				var active = '';
+				if(i == pm['criteria']['page'])
+					active = 'active';
+			    pmStr += '<li class="page-item '+active+'" data="'+i+'"><a class="page-link" href="javascript:void(0);">'+i+'</a></li>';
+			}
+		    if(pm['next']){
+			  pmStr += '<li class="page-item" data="'+(pm['endPage']+1)+'"><a class="page-link" href="javascript:void(0);">다음</a></li>';				
+			}
+		    $('.pagination').html(pmStr);
+		 },
+		 error : function(xhr,status,e){
+				
+		 }
+	 })
+	 
+ }
+ 
 </script>
 </body>
 </html>
