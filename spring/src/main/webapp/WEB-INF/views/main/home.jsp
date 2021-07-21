@@ -8,7 +8,7 @@
 <title>메인</title>
 </head>
 <body>
-	<button id= "btn">클릭</button>
+	<!-- <button id= "btn">클릭</button>
 	<script type="text/javascript">
 		$(function(){
 			$('#btn').click(function(){
@@ -32,7 +32,7 @@
 				//dataType : 서버에서 전달한 데이터 타입을 지정
 				//contentType : 서버로 전달할 데이터 타입을 지정
 				//async : 비동기화 하는 경우 true, 동기화 하는 경우 false
-				/*
+				
 				$.ajax({
 				 type : 'post',
 				 url : '<%=request.getContextPath()%>/member/signin',
@@ -46,10 +46,10 @@
 						
 					}
 				})
-				*/
+				
 		 	})
 		})
-	</script>
+	</script> -->
 <!--  <h1>
 	서버에서 보낸 데이터 : ${name} 
 </h1>

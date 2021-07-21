@@ -66,7 +66,7 @@ public class BoardController {
 	}
 	@RequestMapping(value="/board/detail")
 	public ModelAndView boardDetail(ModelAndView mv, Integer num, HttpServletRequest r) {
-		System.out.println(num);
+		//System.out.println(num);
 		//게시글을 가져오기 전 조회수를 증가
 		//서비스에게 게시글 번호를 주면서 게시글 조회수를 1증가시키라고 시킴
 		boardService.updateViews(num);		
