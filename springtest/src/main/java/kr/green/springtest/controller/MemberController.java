@@ -79,6 +79,13 @@ public class MemberController {
 		mv.setViewName("redirect:/");
 		return mv;
 	}
+
+	@ResponseBody
+	@GetMapping(value = "/member/idCheck/{id}")
+	public String memberIdCheckGet(@PathVariable("id") String id) {
+		//System.out.println(id);
+		return memberService.idCheck(id) ? "POSSIBLE" : "IMPOSSIBLE";
+	}
 	
 	
 }
