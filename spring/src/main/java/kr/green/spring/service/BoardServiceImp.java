@@ -27,9 +27,9 @@ import kr.green.spring.vo.RecommendVO;
 public class BoardServiceImp implements BoardService{
 	@Autowired
 	BoardDAO boardDAO;
-	private String uploadPath = "D:\\JAVA_NCE\\project_nce\\uploadfiles";
+	//private String uploadPath = "D:\\JAVA_NCE\\project_nce\\uploadfiles";
 	//private String uploadPath = "E:\\JAVA_NCE\\project_nce\\uploadfiles";
-	//private String uploadPath = "C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
+	private String uploadPath = "C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles";
 
 	@Override
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
