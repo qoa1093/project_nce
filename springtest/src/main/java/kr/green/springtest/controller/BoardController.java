@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,7 +45,7 @@ public class BoardController {
 		return mv;
 	}
 	@RequestMapping(value="/detail")
-	public ModelAndView detail(ModelAndView mv, Integer num, String msg) {
+	public ModelAndView detail(ModelAndView mv, Integer num, String msg, HttpServletRequest r) {
 		boardService.updateViews(num);
 		BoardVO board = boardService.getBoard(num);
 		//log.info(board);
@@ -51,7 +53,10 @@ public class BoardController {
 		mv.addObject("msg",msg);
 		ArrayList<FileVO> fileList = boardService.getFileList(num);
 		mv.addObject("fileList", fileList);
-		log.info("파일리스트는"+fileList);
+		MemberVO user = memberService.getMember(r);
+		RecommendVO rvo = boardService.getRecommend(num, user);
+		mv.addObject("recommend", rvo);
+		//log.info("파일리스트는"+fileList);
 		mv.setViewName("/template/board/detail");
 		return mv;
 	}
@@ -118,6 +123,17 @@ public class BoardController {
 	@RequestMapping("board/download")
 	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
 	    return boardService.downloadFile(fileName);		
+	}
+	@ResponseBody
+	@GetMapping("/recommend/{board}/{state}")
+	public String boardRecommend(@PathVariable("board") int board,
+			@PathVariable("state") int state,
+			HttpServletRequest r){
+		MemberVO user = memberService.getMember(r); 
+	    return boardService.recommend(board,state,user);		
+		//System.out.println("게시글 번호 : " + board);
+		//System.out.println("게시글 상태 : " + state);
+		//return "ok";
 	}
 	
 	

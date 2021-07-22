@@ -20,6 +20,7 @@ import kr.green.springtest.utils.UploadFileUtils;
 import kr.green.springtest.vo.BoardVO;
 import kr.green.springtest.vo.FileVO;
 import kr.green.springtest.vo.MemberVO;
+import kr.green.springtest.vo.RecommendVO;
 
 
 @Service
@@ -195,6 +196,32 @@ public class BoardServiceImp implements BoardService{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public String recommend(int board, int state, MemberVO user) {
+		if(user == null)
+			return "GUEST";
+		RecommendVO rvo = boardDao.getRecommend(board,user.getId());
+		//처음 좋아요/싫어요를 누른 상태
+		//System.out.println(rvo); 처음인지 아닌지에 따라 콘솔에 null 또는 좋아요누른 멤버값이 도착
+		if(rvo == null) {
+			//새로 좋아요 눌렀을시  로그에 up 뜨고 데이터 베이스에 추가됨
+			boardDao.insertRecommend(board, user.getId(), state);
+			return state == 1? "UP" : "DOWN";
+		}
+		//좋아요를 눌렀는데 또 좋아요를 누를 경우 취소하는 것, 그렇지 않으면 누른걸로 변경
+		state = state == rvo.getState()? 0 : state;
+		rvo.setState(state);
+		boardDao.updateRecommend(rvo);
+		return state == 0? "CANCEL" : ( state == 1? "UP" : "DOWN");
+	}
+
+	@Override
+	public RecommendVO getRecommend(Integer num, MemberVO user) {
+		if(num == null || user == null)
+			return null;
+		return boardDao.getRecommend(num, user.getId());
 	}
 
 }
