@@ -1,0 +1,168 @@
+﻿댓글 수정및 삭제 기능 처리 
+
+--------------------완--------------------
+
+<<복습>>
+
+404에러처리
+
+CommonExceptionAdvice 클래스 추가
+404에러 처리할 화면
+web.xml에서 코드를 추가
+--------------------------------------------
+
+1. 패키지 만들기 
+kr.green.test.exception
+
+2. 클래스 만들기
+CommonExceptionAdvice
+(이전폴더에서 복사, 또는 책 참고)
+3. 폴더만들기
+/views/exception
+
+4.jsp
+custom404.jsp
+
+5.wep.xml에 붙여넣기
+<init-param>
+<param-name>throwExceptionIfNoHandlerFound</param-name>
+<param-value>true</param-value>
+</init-param>
+--------------------완-----------------------------
+써머노트를 이용하여 게시글 등록, 수정, 확인에 적용
+
+
+summernote -> https://summernote.org/ -> 겟 스타티드
+
+1. 부트스트랩4 링크중 끝에서 두개 복사해서 등록, 수정jsp각각  헤드태그에 붙여넣기
+
+2.  textarea부분에 id="summernote"입력
+
+3.  끝에 스크립트 태그 추가하고 아래코드 안에 넣기
+
+$('#summernote').summernote({
+        placeholder: 'Hello Bootstrap 4',
+        tabsize: 2,
+        height: 100
+      });
+
+
+플레이스 홀더랑, height 수정하면 내용등록화면 변경
+ 
+!!이렇게 하면 그냥 코드가 들어옴
+-------------------------------------------------------
+따라서
+
+detail.jsp로 들어가서 
+
+textarea 태그를 div로 바꾸고 리드온리, 네임, 로우 부분 지우기
+
+--------------------------------------------------------
+!!디테일 화면에서 내용의 높이와 내용 길이가 안맞아서 겹침
+
+-> 간단하게 div안에 스타일 태그를 안에 넣어서 height:auto 로 하면 됨
+또는 min-height : 400px
+---------------------------완-----------------------------
+[ajax를 이용한 아이디 중복 검사]
+
+docs -> 
+
+1. pom.xml
+
+<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.9.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		    <version>2.9.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.2</version>
+		</dependency>
+++
+
+2. 회원가입페이지 
+
+ 1) 버튼생성 : '아이디중복검사', 아이디 : 클릭이벤트랑 맞추고, 타입 : 버튼으로수정
+ 2) 스크립트부분에 ajax코드 양식 입력
+$.ajax({
+ type : 'post',
+ url : '<%=request.getContextPath()%>/입력1/입력2',
+data : JSON.stringify(data),
+contentType : "application/json; charset=utf-8",
+success : function(result, status, xhr){				
+},
+error : function(xhr,status,e){					
+	}
+ })
+
+3. 멤버 컨트롤러가서 겟  아이디체크기능 만들고 url맞춰주기
+서비스 -> 서비스 임플 만들고 다시 사인업jsp와서 석세스 부분 멤버컨트롤러 리턴값에 맞춰서 만들기 
+----------------------------------------------------------
+
+contentType : "application/json; charset=utf-8",
+
+넣어주면 제이슨 형태로 오고 아니면 그대로 옴
+
+----------------------완-------------------------------------
+
+[ajax를 이용한 추천/비추천 기능 만들기]
+
+1.게시글 상세에 추천/비추천 버튼을 구성
+
+2. 추천/비추천 기능 구현
+ - 추천/비추천 클릭 이벤트 등록
+	- 클릭 시 아이콘 변경
+	- 클릭 시 디비에 state상태 변경
+	- 클릭 시 추천/취소/비추천/취소/게스트 알림창 뜨기 
+
+-------------------------------------
+
+<c:if>는 if만 있고 else가 없음
+
+<c:choose> : if else if else를 할 수 있음 
+
+when이 if에 해당함
+두번째 when이 else if에 해당함
+otherwise는 else에 해당함 
+
+[예시]
+<c:choose>
+	<c:when test="">far</c:when>
+	<c:otherwise>fas</c:otherwise>
+</c:choose>
+
+----------------완-------------------
+
+[댓글 입력 화면을 구성하고 댓글을 등록하는 기능을 구현]
+->등록 후 db에서 확인
+
+디테일 화면 -> 댓글 입력할 인풋 또는 텍스트 아리아 -> 둘러싸는건 폼으로 해서 리플 컨트롤러에 보내주기? 
+여기서 받아서 서비스 ->서비스임플 ->다오->맵퍼 
+- 리플 브이오 
+
+----------------진행중---------------------
+내일은 
+댓글 기능 복습 완료 및 댓글기능 모듈화 하기
+----------------------------------------
+
+[오늘의 오류]
+변수명과 에이젝스 내부에 넣는 코드명을 안맞춤
+var rp_content는 {'rp_content' : rp_content} 와 동일하게 작성하기!
+
+모디파이.jsp부분에서 value없다고 하는데도 못봤네.. 30번째줄에 var
+c:forEach는 value값을 쓰지 않음
+//디테일에서 데이트타임은 스프링/스프링테스트 각기 다름 근데 vo에서 보낸게 어디로 가지?
+로그아웃 왜 안되냐.. -> 해결함 경로 문제였음
+
+보드컨트롤러에서 맨 위에 /board/*이런 양식이라면 밑에는 보드 뒤부터 써줘야 함. 그래야 경로에 보드가 두번 들어가지 않음.
+
+디테일부분에서 null알림창 계속 뜨는 이유는 뭘까.. null예외처리하면 해결되는 대신에 빨갛게 콘솔에 에러가 남. 이거때문에 다른 펑션 작업하면 이상해지는듯 ->이거 아마 <!DOCTYPE html>대문자로 안써서인듯
+
+디테일에서 버튼을 누르고 뒤로가기했다 다시들어가도 버튼색이 초기화되는 현상 -> 디테일 부분엔 문제 없었음 -> 보드 컨트롤러 디테일 겟 부분에서 mv.addobject("recommend", rvo); 에 오타
+여기서 보내는 문자열("recommend")이 화면구현페이지인 detail.jsp에 가서 recommend 정보값을 넘겨주고, 넘겨받은 정보값을 recommend. ~ 의 방식으로 사용함. 그래서 제대로 넘겨받지 못해서 when부문이 에러난 것임.
