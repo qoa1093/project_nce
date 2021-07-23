@@ -191,6 +191,10 @@
 			contentObj.after(str).remove();
 			$(this).parent().remove();
 		})
+		$(document).on('click','.reply-mod-btn',function(){
+			//var text = $(this).prev().val();
+			//replyService.insert(contextPath, text);
+		})
 	})
 	</script>	
 </body>
