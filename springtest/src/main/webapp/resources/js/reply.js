@@ -14,7 +14,7 @@ var replyService = (function(){
 			success : function(result){ // 하나만 넣어도 괜찮음(다른두개를 못씀)
 				console.log(result); 
 				if(result == 'OK'){
-					replyList(contextPath, data['rp_bd_num']);
+					replyList(contextPath, data['rp_bd_num'],1);
 					$('.reply-input').val('');
 					alert('댓글이 등록되었습니다.');		
 				}
@@ -22,13 +22,14 @@ var replyService = (function(){
 					
 		})
 	}
-	function replyList(contextPath, rp_bd_num){
+	function replyList(contextPath, rp_bd_num, page){
 		$.ajax({
 			type : 'get',
 			dataType : "json",
-			url : contextPath + '/reply/list/'+ rp_bd_num,
+			url : contextPath + '/reply/list/'+ rp_bd_num +'/'+ page,
 			success : function(result){ 
-				//console.log(result['replylist']);
+				//1.console.log(result['replylist']);
+				//2.console.log(result['pm']);
 				var str = '<hr style = "background:red;"/>';
 				for(reply of result['replyList']){
 					//console.log(reply)
@@ -40,6 +41,21 @@ var replyService = (function(){
 				}
 				str += '<hr style = "background:red;"/>';
 				$('.reply-list').html(str);//기존 댓글 덮어쓰기 위해서 append는 기존 댓글 아래에 붙이는 것
+				
+				var pmStr = '';
+				var pm = result['pm'];
+				if(pm.prev)
+					pmStr += '<li class="page-item" data="'+(pm.startPage - 1)+'"><a class="page-link" href="#">이전</a></li>';
+				for(i = pm.startPage;i<=pm.endPage;i++){
+					if(pm.criteria.page == i)
+						pmStr += '<li class="page-item active"data="'+i+'"><a class="page-link" href="#">'+ i +'</a></li>';
+					else	
+			    		pmStr += '<li class="page-item"data="'+i+'"><a class="page-link" href="#">'+ i +'</a></li>';					
+				}
+				if(pm.next)
+			    	pmStr += '<li class="page-item"data="'+(pm.endPage + 1)+'"><a class="page-link" href="#">다음</a></li>';
+
+				$('.pagination').html(pmStr);
 			}
 		})
 	}

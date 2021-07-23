@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.*;
 
+import kr.green.springtest.pagination.Criteria;
+import kr.green.springtest.pagination.PageMaker;
 import kr.green.springtest.service.*;
 import kr.green.springtest.vo.MemberVO;
 import kr.green.springtest.vo.ReplyVO;
@@ -36,13 +38,21 @@ public class ReplyController {
 		return replyService.insertReply(rvo) == 0? "FAIL" : "OK";
 		
 	}
-	@GetMapping("reply/list/{num}")
-	public HashMap<String, Object> replyListGet(@PathVariable("num") int num) {
-		ArrayList<ReplyVO> list = replyService.getReplyList(num);
-		//System.out.println(list);
+	@GetMapping("reply/list/{num}/{page}")
+	public HashMap<String, Object> replyListGet(@PathVariable("num") int num, @PathVariable("page") int page) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		Criteria cri = new Criteria(page, 2);
+		int totalCount = replyService.getTotalCount(num);
+		PageMaker pm = new PageMaker(totalCount, 1, cri);
+		//2.System.out.println(pm);
+		ArrayList<ReplyVO> list = replyService.getReplyList(num, cri);
+		//1.System.out.println(list);
+		
 		map.put("replyList", list);
+		map.put("pm", pm);//2번째
 		return map;
 		
 	}
+	
 }

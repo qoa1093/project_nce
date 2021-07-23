@@ -4,13 +4,16 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.springtest.pagination.Criteria;
 import kr.green.springtest.vo.ReplyVO;
 
 public interface ReplyDAO {
 
 	void insertReply(@Param("rvo") ReplyVO rvo);// 파람을 안쓰면 rvo.~로 안써도 되지만 헷갈릴까봐 사용
 
-	ArrayList<ReplyVO> getReplyList(@Param("num")int num);
+	ArrayList<ReplyVO> getReplyList(@Param("num")int num, @Param("cri")Criteria cri);
+
+	int getTotalCount(@Param("num")int num);
 
 	
 

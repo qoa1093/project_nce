@@ -74,7 +74,9 @@
 		  	<!-- 이 안에다가 앞으로 이 화면에 달릴 댓글들 리스트를 불러와서 보여줄 것임 -->
 		  	
 		  	</div>
-		  	<ul class="pagination justify-content-center"></ul>
+		  	<ul class="pagination justify-content-center">
+		  		
+		  	</ul>
 			  <div class="reply-box form-group">
 		  		<!-- 이 안에 있는 목록들은 디비로 보내서 댓글 목록에 추가될 것임 -->
 		  		  <textarea class="reply-input form-control mb-2" placeholder="댓글내용을 입력하세요."></textarea>		  		  
@@ -146,7 +148,7 @@
 	})
 	
 	$(function(){
-		replyService.list(contextPath, rp_bd_num);
+		replyService.list(contextPath, rp_bd_num, 1);
 		
 		$('.reply-btn').click(function(){
 			var rp_bd_num = '${board.num}'; // 따옴표 붙이는경우 잘못된 게시글 갔을때 에러나지 않도록 = ; 형태가 됨 -> 문법에러 -> 게시글번호가 없어도 빈 문자열(원하는결과아니어도 자바스크립에선 에러 ㄴㄴ)
@@ -166,6 +168,23 @@
 					};
 			//console.log(data); //js에서는 아래 코드가 안먹힘 (jsp) 그래서 따로 만들어줌
 			replyService.insert(contextPath, data);
+		})
+	})
+	$(function(){
+		$(document).on('click','.pagination .page-item',function(e){
+			e.preventDefault();
+			var page = $(this).attr('data');
+			replyService.list(contextPath, rp_bd_num, page);
+			//console.log(page);
+			/*$.ajax({
+				type : 'get',
+				url : contextPath + '/reply/list/{num}', 
+				datatype : "json",
+				contentType : "application/json; charset=utf-8",
+				success : function(result){ 
+					console.log(result); 
+				}		
+			})*/
 		})
 	})
 	</script>	
