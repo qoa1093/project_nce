@@ -1,8 +1,12 @@
 package kr.green.springtest.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.springframework.web.bind.annotation.*;
 
 import kr.green.springtest.service.*;
+import kr.green.springtest.vo.MemberVO;
 import kr.green.springtest.vo.ReplyVO;
 import lombok.*;
 
@@ -30,6 +34,15 @@ public class ReplyController {
 	public String replyInsPost(@RequestBody ReplyVO rvo) {
 		//System.out.println(rvo);
 		return replyService.insertReply(rvo) == 0? "FAIL" : "OK";
+		
+	}
+	@GetMapping("reply/list/{num}")
+	public HashMap<String, Object> replyListGet(@PathVariable("num") int num) {
+		ArrayList<ReplyVO> list = replyService.getReplyList(num);
+		//System.out.println(list);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("replyList", list);
+		return map;
 		
 	}
 }

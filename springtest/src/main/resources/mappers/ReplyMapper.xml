@@ -7,4 +7,8 @@
  		insert into reply(rp_me_id, rp_bd_num, rp_content)
  			values(#{rvo.rp_me_id},#{rvo.rp_bd_num},#{rvo.rp_content}) <!-- 파람을 제외하면 앞에 rvo를 제외해도 됨 -->
  	</insert>
+ 	<select id="getReplyList" resultType="kr.green.springtest.vo.ReplyVO">
+ 		select * from reply where rp_valid = 'I' and rp_bd_num = #{num}
+ 			order by rp_num desc
+ 	</select>
 </mapper>

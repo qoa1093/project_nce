@@ -5,6 +5,7 @@
 <html>
 <head>
 	<title>게시판</title>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/reply.js"></script>
 	<style type="text/css">
 		.recommend-btn{
 			font-size : 30px;
@@ -38,10 +39,10 @@
 			<a href="#" class="recommend-btn up">
 				<c:choose>
 					<c:when test="${recommend != null && recommend.state == 1}">
-						<i class="fas fa-thumbs-up"></i>
+						<i class="fas fa-thumbs-up mr-2"></i>
 					</c:when>
 					<c:otherwise>
-						<i class="far fa-thumbs-up"></i>
+						<i class="far fa-thumbs-up mr-2"></i>
 					</c:otherwise>
 				</c:choose>
 			</a>
@@ -69,8 +70,9 @@
 		<div class="reply form-group">
 		  <label>댓글</label>
 		  <div class="contents">
-		  	<div class="reply-list">
+		  	<div class="reply-list from-control">
 		  	<!-- 이 안에다가 앞으로 이 화면에 달릴 댓글들 리스트를 불러와서 보여줄 것임 -->
+		  	
 		  	</div>
 		  	<ul class="pagination justify-content-center"></ul>
 			  <div class="reply-box form-group">
@@ -92,6 +94,12 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	//전역변수
+	//게시글번호
+	var rp_bd_num = '${board.num}';
+	//프로젝트명
+	var contextPath = '<%=request.getContextPath()%>'; 
+	
 	$(function(){
 		var msg = '${msg}';
 		printMsg(msg);
@@ -138,6 +146,8 @@
 	})
 	
 	$(function(){
+		replyService.list(contextPath, rp_bd_num);
+		
 		$('.reply-btn').click(function(){
 			var rp_bd_num = '${board.num}'; // 따옴표 붙이는경우 잘못된 게시글 갔을때 에러나지 않도록 = ; 형태가 됨 -> 문법에러 -> 게시글번호가 없어도 빈 문자열(원하는결과아니어도 자바스크립에선 에러 ㄴㄴ)
 			var rp_content = $('.reply-input').val();
@@ -145,26 +155,17 @@
 			//console.log('게시글번호 :' + rp_bd_num);
 			//console.log('댓글내용 :' + rp_content);
 			//console.log('댓글아이디 :' + rp_me_id);
+			if(rp_me_id == ''){
+				alert('로그인하세요.');
+				return;
+			}
 			var data = {
 					rp_bd_num/*속성명*/ : rp_bd_num,/*변수명*/
 					rp_content : rp_content,
 					rp_me_id : rp_me_id
 					};
 			//console.log(data); //js에서는 아래 코드가 안먹힘 (jsp) 그래서 따로 만들어줌
-			var contextPath = '<%=request.getContextPath()%>'; 
-			$.ajax({
-				 type : 'post',
-				 url : contextPath + '/reply/ins', //404에러 : 이 경로를 처리하는 곳이 없어서
-				 data : JSON.stringify(data),
-				 contentType : "application/json; charset=utf-8",
-				 success : function(result){ // 하나만 넣어도 괜찮음(다른두개를 못씀)
-						console.log(result); 
-						//
-					},
-					error : function(xhr,status,e){
-						
-					}
-			 })
+			replyService.insert(contextPath, data);
 		})
 	})
 	</script>	
