@@ -72,7 +72,6 @@
 		  <div class="contents">
 		  	<div class="reply-list from-control">
 		  	<!-- 이 안에다가 앞으로 이 화면에 달릴 댓글들 리스트를 불러와서 보여줄 것임 -->
-		  	
 		  	</div>
 		  	<ul class="pagination justify-content-center">
 		  		
@@ -101,6 +100,8 @@
 	var rp_bd_num = '${board.num}';
 	//프로젝트명
 	var contextPath = '<%=request.getContextPath()%>'; 
+	//아이디
+	var id = '${user.id}';
 	
 	$(function(){
 		var msg = '${msg}';
@@ -148,7 +149,7 @@
 	})
 	
 	$(function(){
-		replyService.list(contextPath, rp_bd_num, 1);
+		replyService.list(contextPath, rp_bd_num, 1, id);
 		
 		$('.reply-btn').click(function(){
 			var rp_bd_num = '${board.num}'; // 따옴표 붙이는경우 잘못된 게시글 갔을때 에러나지 않도록 = ; 형태가 됨 -> 문법에러 -> 게시글번호가 없어도 빈 문자열(원하는결과아니어도 자바스크립에선 에러 ㄴㄴ)
@@ -174,17 +175,21 @@
 		$(document).on('click','.pagination .page-item',function(e){
 			e.preventDefault();
 			var page = $(this).attr('data');
-			replyService.list(contextPath, rp_bd_num, page);
+			replyService.list(contextPath, rp_bd_num, page, id);
+			
+			//console.log(userId);
 			//console.log(page);
-			/*$.ajax({
-				type : 'get',
-				url : contextPath + '/reply/list/{num}', 
-				datatype : "json",
-				contentType : "application/json; charset=utf-8",
-				success : function(result){ 
-					console.log(result); 
-				}		
-			})*/
+		})
+		$(document).on('click','.mod-btn',function(){
+			//console.log('수정');
+			var contentObj = $(this).parent().prev().children().last();
+			var str = 
+				'<div class="reply-mod-box form-group">'+
+	  		  		'<textarea class="reply-input form-control mb-2" placeholder="댓글내용을 입력하세요.">'+contentObj.text()+'</textarea>'+		  		  
+			  		'<button type="button" class="reply-mod-btn btn btn-outline-success">등록</button>'+
+		  		'</div>';
+			contentObj.after(str).remove();
+			$(this).parent().remove();
 		})
 	})
 	</script>	

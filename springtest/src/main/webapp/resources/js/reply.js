@@ -14,7 +14,7 @@ var replyService = (function(){
 			success : function(result){ // 하나만 넣어도 괜찮음(다른두개를 못씀)
 				console.log(result); 
 				if(result == 'OK'){
-					replyList(contextPath, data['rp_bd_num'],1);
+					replyList(contextPath, data['rp_bd_num'],1, data['rp_me_id']);
 					$('.reply-input').val('');
 					alert('댓글이 등록되었습니다.');		
 				}
@@ -22,7 +22,7 @@ var replyService = (function(){
 					
 		})
 	}
-	function replyList(contextPath, rp_bd_num, page){
+	function replyList(contextPath, rp_bd_num, page, id){
 		$.ajax({
 			type : 'get',
 			dataType : "json",
@@ -38,6 +38,13 @@ var replyService = (function(){
 						'<label>'+reply['rp_me_id']+'</label>'+
 						'<div class="form-control mb-2">'+reply['rp_content']+'</div>'+
 						'</div>';
+					if(reply['rp_me_id'] == id){
+						str +=
+						'<div>'+
+						'<button type="button" class="mod-btn btn btn-outline-success mr-2">수정</button>'+
+						'<button type="button" class="del-btn btn btn-outline-danger">삭제</button>'+
+						'</div>';
+					}
 				}
 				str += '<hr style = "background:red;"/>';
 				$('.reply-list').html(str);//기존 댓글 덮어쓰기 위해서 append는 기존 댓글 아래에 붙이는 것
