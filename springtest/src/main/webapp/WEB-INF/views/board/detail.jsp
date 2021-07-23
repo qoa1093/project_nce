@@ -5,10 +5,6 @@
 <html>
 <head>
 	<title>게시판</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style type="text/css">
 		.recommend-btn{
 			font-size : 30px;
@@ -70,15 +66,18 @@
 				<a class="form-control" href="<%=request.getContextPath()%>/board/download?fileName=${file.name}">${file.ori_name }</a>
 			</c:forEach>
 		</div>
-		<div class="form-group">
+		<div class="reply form-group">
 		  <label>댓글</label>
-		  <div class="reply-list">
-		  <!-- 이 안에다가 앞으로 이 화면에 달릴 댓글들 리스트를 불러와서 보여줄 것임 -->
-		  </div>
-		  <div class="reply-insert">
-		  <!-- 이 안에 있는 목록들은 디비로 보내서 댓글 목록에 추가될 것임 -->
-		  <textarea id="reply" class="form-control" name="contents" placeholder="댓글내용을 입력하세요."></textarea>
-		  <button class="reply-btn btn btn-outline-success">등록</button>
+		  <div class="contents">
+		  	<div class="reply-list">
+		  	<!-- 이 안에다가 앞으로 이 화면에 달릴 댓글들 리스트를 불러와서 보여줄 것임 -->
+		  	</div>
+		  	<ul class="pagination justify-content-center"></ul>
+			  <div class="reply-box form-group">
+		  		<!-- 이 안에 있는 목록들은 디비로 보내서 댓글 목록에 추가될 것임 -->
+		  		  <textarea class="reply-input form-control mb-2" placeholder="댓글내용을 입력하세요."></textarea>		  		  
+				  <button type="button" class="reply-btn btn btn-outline-success">등록</button>
+			  </div>
 		  </div>
 		</div>
 		<div class="input-group">
@@ -137,14 +136,28 @@
 			 })
 		})
 	})
-	/*
+	
 	$(function(){
 		$('.reply-btn').click(function(){
+			var rp_bd_num = '${board.num}'; // 따옴표 붙이는경우 잘못된 게시글 갔을때 에러나지 않도록 = ; 형태가 됨 -> 문법에러 -> 게시글번호가 없어도 빈 문자열(원하는결과아니어도 자바스크립에선 에러 ㄴㄴ)
+			var rp_content = $('.reply-input').val();
+			var rp_me_id = '${user.id}';
+			//console.log('게시글번호 :' + rp_bd_num);
+			//console.log('댓글내용 :' + rp_content);
+			//console.log('댓글아이디 :' + rp_me_id);
+			var data = {
+					rp_bd_num/*속성명*/ : rp_bd_num,/*변수명*/
+					rp_content : rp_content,
+					rp_me_id : rp_me_id
+					};
+			//console.log(data); //js에서는 아래 코드가 안먹힘 (jsp) 그래서 따로 만들어줌
+			var contextPath = '<%=request.getContextPath()%>'; 
 			$.ajax({
 				 type : 'post',
-				 url : '<%=request.getContextPath()%>/board/reply/',
-				 dataType : ReplyVO, 
-				 success : function(result, status, xhr){
+				 url : contextPath + '/reply/ins', //404에러 : 이 경로를 처리하는 곳이 없어서
+				 data : JSON.stringify(data),
+				 contentType : "application/json; charset=utf-8",
+				 success : function(result){ // 하나만 넣어도 괜찮음(다른두개를 못씀)
 						console.log(result); 
 						//
 					},
@@ -152,8 +165,8 @@
 						
 					}
 			 })
-		})//이부분 내일 다시 수정할 것 데이터 타입~ 이거 뭐였는지 기억안남 아직 디테일 부분만 건드렸음
-	})*/
+		})
+	})
 	</script>	
 </body>
 </html>
