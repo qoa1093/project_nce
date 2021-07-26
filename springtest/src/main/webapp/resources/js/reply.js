@@ -42,7 +42,7 @@ var replyService = (function(){
 						str +=
 						'<div>'+
 						'<button type="button" class="mod-btn btn btn-outline-success mr-2" data="'+ reply['rp_num']+'">수정</button>'+
-						'<button type="button" class="del-btn btn btn-outline-danger">삭제</button>'+
+						'<button type="button" class="del-btn btn btn-outline-danger" data="'+ reply['rp_num']+'">삭제</button>'+
 						'</div>';
 					}
 				}
@@ -83,11 +83,29 @@ var replyService = (function(){
 			}			
 		});
 	}
+	function deleteReply(contextPath, data, page){
+		$.ajax({
+			type : 'post',
+			url : contextPath + '/reply/del',
+			data : JSON.stringify(data),
+			contentType : "application/json; charset=utf-8",
+			success : function(res){
+				//console.log(res);
+				if(res == 'SUCCESS'){
+					alert('댓글을 삭제했습니다.');
+					replyService.list(contextPath, data['rp_bd_num'], page, data['rp_me_id']);
+				}else{
+					alert('댓글을 삭제할 수 없습니다.');
+				}
+			}
+		})
+	}
 	return{ //중괄호{}객체 /[]배열 / return{}은 객체를 리턴 / replyService.name은 replyService['name']과 같은 기능 / replyService.insert() 객체로 만들어서 만든 메소드를 밖에서 사용 
 		name : '서비스',
 		insert : insert,
 		list/*얘의 이름으로 바깥에서 부름 리턴값이라서*/ : replyList,/* 이건 js내부 메소드명*/
-		modify : modify
+		modify : modify,
+		deleteReply : deleteReply
 	}
 	
 })(); // 즉시실행함수 : 만들자마자 바로 사용 $는 그 상황에서만

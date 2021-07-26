@@ -57,8 +57,13 @@ public class ReplyController {
 	@PostMapping("reply/mod")
 	public String replyModPost(@RequestBody ReplyVO reply) {
 		//System.out.println(reply);
-		return replyService.updateReply(reply);
-		
+		return replyService.updateReply(reply);		
+	}
+	@PostMapping("reply/del")
+	public String replyDelPost(@RequestBody ReplyVO reply) {
+		//System.out.println(reply);
+		//return reply.toString();	
+		return replyService.deleteReply(reply);
 	}
 	
 }

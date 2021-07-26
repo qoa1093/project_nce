@@ -191,24 +191,33 @@
 		  		'</div>';
 			contentObj.after(str).remove();
 			$(this).parent().remove();
-			$(document).on('click','.reply-mod-btn',function(){
-				var rp_content = $(this).siblings('.reply-input').val();
-				var rp_num = $(this).attr('data');
-				var data = {
-						rp_content : rp_content,
-						rp_me_id : id,
-						rp_num : rp_num,
-						rp_bd_num : rp_bd_num
-				};
-				var page = $('.pagination .active a').text();
-				replyService.modify(contextPath, data, page);
-				console.log(page/*data + rp_num + rp_me_id +rp_content + '등록버튼 클릭'*/);
-				
-			})
 		})
 		$(document).on('click','.reply-mod-btn',function(){
-			//var text = $(this).prev().val();
-			//replyService.insert(contextPath, text);
+			var rp_content = $(this).siblings('.reply-input').val();
+			var rp_num = $(this).attr('data');
+			var data = {
+					rp_content : rp_content,
+					rp_me_id : id,
+					rp_num : rp_num,
+					rp_bd_num : rp_bd_num
+			};
+			var page = $('.pagination .active a').text();
+			replyService.modify(contextPath, data, page);
+			console.log(page/*data + rp_num + rp_me_id +rp_content + '등록버튼 클릭'*/);
+			
+		})
+		$(document).on('click','.del-btn',function(){
+			var rp_me_id = id;
+			var rp_num = $(this).attr('data');
+			var data = {
+					rp_me_id : rp_me_id,
+					rp_num : rp_num,
+					rp_bd_num :rp_bd_num
+			}
+			var page = $('.pagination .active a').text();
+			replyService.deleteReply(contextPath, data, page);
+			//console.log(data);
+			
 		})
 	})
 	</script>	
