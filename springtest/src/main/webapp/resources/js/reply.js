@@ -41,7 +41,7 @@ var replyService = (function(){
 					if(reply['rp_me_id'] == id){
 						str +=
 						'<div>'+
-						'<button type="button" class="mod-btn btn btn-outline-success mr-2">수정</button>'+
+						'<button type="button" class="mod-btn btn btn-outline-success mr-2" data="'+ reply['rp_num']+'">수정</button>'+
 						'<button type="button" class="del-btn btn btn-outline-danger">삭제</button>'+
 						'</div>';
 					}
@@ -66,11 +66,28 @@ var replyService = (function(){
 			}
 		})
 	}
-	
+	function modify(contextPath, data, page){
+		$.ajax({
+			type : 'post',
+			url : contextPath + '/reply/mod',
+			data : JSON.stringify(data), //댓글번호, 내용, 아이디 오는데 게시글번호도 이안에 넣어주면 됨
+			contentType : "application/json; charset=utf-8", //보낼 데이터가 있고 데이터 타입이 있어야 하므로 제이슨 형태로 보내주는데 문자열 형식도 지정해서 보내주기
+			success : function(res){ //서버에서 보내주는애를 내가 처리하는 거라서 따로 알려줄 필요 없음
+				console.log('성공')
+				if(res == 'SUCCESS'){
+					alert('댓글이 수정되었습니다.');
+					replyList(contextPath, data['rp_bd_num'], page, data['rp_me_id']);
+				}else{
+					alert('댓글을 수정할 수 없습니다.');
+				}
+			}			
+		});
+	}
 	return{ //중괄호{}객체 /[]배열 / return{}은 객체를 리턴 / replyService.name은 replyService['name']과 같은 기능 / replyService.insert() 객체로 만들어서 만든 메소드를 밖에서 사용 
 		name : '서비스',
 		insert : insert,
-		list/*얘의 이름으로 바깥에서 부름 리턴값이라서*/ : replyList/* 이건 js내부 메소드명*/
+		list/*얘의 이름으로 바깥에서 부름 리턴값이라서*/ : replyList,/* 이건 js내부 메소드명*/
+		modify : modify
 	}
 	
 })(); // 즉시실행함수 : 만들자마자 바로 사용 $는 그 상황에서만

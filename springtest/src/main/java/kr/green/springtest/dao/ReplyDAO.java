@@ -15,6 +15,10 @@ public interface ReplyDAO {
 
 	int getTotalCount(@Param("num")int num);
 
+	ReplyVO getReply(@Param("rp_num")int rp_num);
+
+	int updateReply(@Param("reply")ReplyVO dbReply); // 이 파람 이름으로 맵퍼에서 사용함
+
 	
 
 	

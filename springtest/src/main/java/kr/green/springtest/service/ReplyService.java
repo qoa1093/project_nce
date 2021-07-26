@@ -13,4 +13,6 @@ public interface ReplyService {
 
 	int getTotalCount(int num);
 
+	String updateReply(ReplyVO reply);
+
 }
