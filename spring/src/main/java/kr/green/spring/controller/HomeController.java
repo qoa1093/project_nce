@@ -1,9 +1,12 @@
 package kr.green.spring.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import kr.green.spring.service.MemberService;
 import kr.green.spring.vo.MemberVO;
@@ -114,10 +118,21 @@ public class HomeController {
 		mv.setViewName("redirect:/member/mypage");		
 		return mv;
 	}
-	@RequestMapping(value = "/signout", method = RequestMethod.GET)
-	public ModelAndView signoutGet(ModelAndView mv,HttpServletRequest request) {
+	@RequestMapping(value = "/signout", method = RequestMethod.GET)//리스폰스는 응답에 필요한 정보 요청
+	public ModelAndView signoutGet(ModelAndView mv,HttpServletRequest request, HttpServletResponse response) {
 		//세션에 있는 유저정보를 지워주고 홈으로 되돌아감 : 로그아웃 기능
-		request.getSession().removeAttribute("user");
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		if(user != null) {
+			request.getSession().removeAttribute("user");
+			request.getSession().invalidate();//세션 무효화
+			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
+			if(loginCookie != null) {
+				loginCookie.setPath("/");
+				loginCookie.setMaxAge(0); //유지시간을 제로로 만들어줌
+				response.addCookie(loginCookie);
+				memberService.keeplogin(user.getId(), "none",new Date());				
+			}
+		}
 		mv.setViewName("redirect:/");		
 		return mv;
 	}

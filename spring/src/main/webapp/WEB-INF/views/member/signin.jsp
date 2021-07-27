@@ -19,16 +19,23 @@
 	  <label>비밀번호</label>
 	  <input type="password" class="form-control" name="pw">
 	</div>
-	<button id="loginBtn" class="btn btn-outline-success col-12">로그인</button>
+	<label class="form-group">
+		<input type="checkbox" name="useCookie" value="true"> 자동 로그인
+	</label>
+	<button type="submit" id="loginBtn" class="btn btn-outline-success col-12">로그인</button>
 	<a href="<%=request.getContextPath()%>/find/pw" class="btn btn-outline">비밀번호 찾기</a>
 	<a href="<%=request.getContextPath()%>/find/id" class="btn btn-outline ml-2">아이디 찾기</a>
 </form>
+<!--  
 <script type="text/javascript">
  $(function(){
 	 $('#loginBtn').click(function(){
 		 var id = $('[name=id]').val();
 		 var pw = $('[name=pw]').val();
-		 var data = {'id' : id, 'pw' : pw};
+		 var useCookie = $('[name=useCookie]').is(':checked') ? true : false;
+		 var data = {'id' : id, 'pw' : pw, 'useCookie' : useCookie};
+		 console.log(data);
+		 return;
 		 $.ajax({
 			 type : 'post',
 			 url : '<%=request.getContextPath()%>/member/signin',
@@ -52,7 +59,7 @@
 	 })
  })
 </script>
-
+-->
 
 </body>
 </html>
