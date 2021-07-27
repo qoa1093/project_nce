@@ -1,10 +1,15 @@
 package kr.green.spring.controller;
 
+import java.util.ArrayList;
+
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +34,8 @@ public class HomeController {
 	 */
 	@Autowired
     MemberService memberService;
+	@Autowired
+	private JavaMailSender mailSender;
 
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -129,6 +136,124 @@ public class HomeController {
 		if(dbUser != null)
 			r.getSession().setAttribute("user", dbUser);
 		return dbUser != null ? "success" : "fail";
+	}
+	/*@GetMapping(value = "/mail/test")//경로에 있는 변수 //가져와서 문자열로 저장
+	public ModelAndView mailTestGet(ModelAndView mv) {
+		mv.setViewName("/template/main/mail");
+		return mv;
+	}
+	@PostMapping(value = "/mail/test")//경로에 있는 변수 //가져와서 문자열로 저장
+	public ModelAndView mailTestGet(ModelAndView mv, String title, String content, String email) {
+		 try {
+		        MimeMessage message = mailSender.createMimeMessage();
+		        MimeMessageHelper messageHelper 
+		            = new MimeMessageHelper(message, true, "UTF-8");
+
+		        messageHelper.setFrom("123@gmail.com");  // 보내는사람 생략하거나 하면 정상작동을 안함
+		        messageHelper.setTo(email);     // 받는사람 이메일
+		        messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+		        messageHelper.setText("","<h1>내용</h1>");  // 메일 내용
+		        mailSender.send(message);
+		        System.out.println(message);
+		    } catch(Exception e){
+		        System.out.println(e);
+		    }
+
+		mv.setViewName("/template/main/mail");
+		return mv;
+	}
+	*/
+
+	@GetMapping(value = "/find/pw")//경로에 있는 변수 //가져와서 문자열로 저장
+	public ModelAndView findPwGet(ModelAndView mv) {
+		mv.setViewName("/template/main/findpw");
+		return mv;
+	}
+	@ResponseBody
+	@GetMapping(value = "/find/pw/{id}")//경로에 있는 변수 //가져와서 문자열로 저장
+	public String findPwGet(@PathVariable("id") String id) {
+		//System.out.println(id);
+		MemberVO user = memberService.getMember(id);
+		if(user == null)
+			return "FAIL";
+		
+		 try {
+		        MimeMessage message = mailSender.createMimeMessage();
+		        MimeMessageHelper messageHelper 
+		            = new MimeMessageHelper(message, true, "UTF-8");
+		        //임시 비밀번호 발급
+		        String newPw = newPw();
+		        //새 비밀번호를 디비에 저장
+		        user.setPw(newPw);
+		        memberService.updateMember(user);
+		        
+		        messageHelper.setFrom("abc@naver.com");  // 보내는사람 생략하거나 하면 정상작동을 안함
+		        messageHelper.setTo(user.getEmail());     // 받는사람 이메일
+		        messageHelper.setSubject("새 비밀번호를 발급합니다."); // 메일제목은 생략이 가능하다
+		        messageHelper.setText("","발급된 새 비밀번호는 <b>" + newPw + "</b>입니다.");  // 메일 내용
+		        
+		        mailSender.send(message);
+		        return "SUCCESS";
+		        //System.out.println(message);
+		    } catch(Exception e){
+		        System.out.println(e);
+		    }
+			return "FAIL";
+	}
+	//8자리의 숫자 or 영어 대소문자로 된 비밀번호
+	private String newPw() {
+		// 랜덤숫자 : 0~9 => 문자열 : 0~9
+		// 랜덤숫자 : 10~35 => 문자열 a~z
+		// 랜덤숫자 : 36~61 => 문자열 : A~Z 
+		//12 => c
+		String pw="";
+		int max = 61, min = 0;
+		for(int i=0; i<8; i++) {
+			int r = (int)(Math.random()*(max-min+1)) + min;
+			//int r = (int)(Math.random()*62);
+			if(r<=9) {
+				pw += r;
+			}else if( r<=35) {
+				pw += (char)('a'+(r-10));
+			}else {
+				pw += (char)('A'+(r-36));
+			}
+		}
+		return pw;
+	}
+	@GetMapping(value = "/find/id")//경로에 있는 변수 //가져와서 문자열로 저장
+	public ModelAndView findIdGet(ModelAndView mv) {
+		mv.setViewName("/template/main/findid");
+		return mv;
+	}
+	@ResponseBody
+	@PostMapping(value = "/find/id")
+	public String findIdPost(String email) {
+		System.out.println(email);
+		ArrayList<MemberVO> userList = memberService.getMemberByEmail(email);
+		if(userList == null || userList.size() == 0)
+			return "FAIL";
+		 try {
+			 	ArrayList<String> idList = new ArrayList<String>();
+			 	for(MemberVO user : userList) {
+			 		idList.add(user.getId());
+			 	}
+		        MimeMessage message = mailSender.createMimeMessage();
+		        MimeMessageHelper messageHelper 
+		            = new MimeMessageHelper(message, true, "UTF-8");
+		        
+		        messageHelper.setFrom("abc@naver.com");  // 보내는사람 생략하거나 하면 정상작동을 안함
+		        messageHelper.setTo(email);     // 받는사람 이메일
+		        messageHelper.setSubject("가입된 아이디를 안내드립니다."); // 메일제목은 생략이 가능하다
+		        messageHelper.setText("","가입된 아이디는 <b>" + idList.toString().replaceAll("[\\[\\]]","") + "</b>입니다.");  // 메일 내용 |  대괄호 제외하고 보내기
+		        
+		        System.out.println(idList + "" + message);
+		        mailSender.send(message);
+		        return "SUCCESS";
+		    } catch(Exception e){
+		        System.out.println(e);
+		    }
+			return "FAIL";
 	}
 	
 }
