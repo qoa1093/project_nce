@@ -16,26 +16,34 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-<form class="container" method="post" action="<%=request.getContextPath()%>/signin">
-<!-- 보이면안되서/ 경로중에 중간에 프로젝트 명에 해당하는거 상관없이 동일하게 사인인을 url로 보내줌 -->
-	<h1>로그인</h1>
+<div class="container">
 	<div class="form-group">
 	  <label>아이디</label>
-	  <input type="text" class="form-control" name="id">
+	  <input type="text" class="form-control" name="id" placeholder="아이디를 입력하세요.">
 	</div>
-	<div class="form-group">
-	  <label>비밀번호</label>
-	  <input type="password" class="form-control" name="pw">
-	</div>
-	<label> 
-	<input type="checkbox" name="useCookie" value="true"> 자동 로그인
-	</label>
-	<button class="btn btn-outline-success col-12">로그인</button>
-<a href="<%=request.getContextPath()%>/find/pw">비밀번호 찾기</a>
-</form>
-
-
-
+	<button class="find-pw-btn btn btn-outline-success col-12">비밀번호 찾기</button>
+	<div class="wait-box"></div>
+</div>	
+<script type="text/javascript">
+$(function(){
+	$('.find-pw-btn').click(function(){
+		var id = $('[name=id]').val();
+		$('.wait-box').text('전송중입니다. 알림창이 뜰 때까지 기다려 주세요.')
+		$.ajax({
+			type : 'get',
+			url : '<%=request.getContextPath()%>/find/pw/' + id,
+			success : function(res){
+				//console.log(res);
+				$('.wait-box').text('');
+				if(res == 'SUCCESS'){
+					alert('새 비밀번호가 메일로 전송되었습니다.')
+				}else{
+					alert('가입되지 않은 아이디입니다.')
+				}
+			}
+		})
+	})
+})
+</script>
 </body>
 </html>
