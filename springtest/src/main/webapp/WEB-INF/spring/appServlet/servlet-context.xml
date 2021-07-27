@@ -65,9 +65,9 @@
 	    <beans:property name="maxUploadSize" value="10485760"></beans:property>
 	</beans:bean>
 	<beans:bean id="uploadPath" class="java.lang.String">
-	<beans:constructor-arg value="D:\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>
-    <!--<beans:constructor-arg value="E:\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>집갈때마다 수정하기
-    <beans:constructor-arg value="C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>-->
+	<!--<beans:constructor-arg value="D:\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>
+    <beans:constructor-arg value="E:\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>집갈때마다 수정하기-->
+    <beans:constructor-arg value="C:\\Users\\chaennn\\Desktop\\JAVA_NCE\\JAVA_NCE\\project_nce\\uploadfiles"></beans:constructor-arg>
 </beans:bean>
 	
 </beans:beans>
