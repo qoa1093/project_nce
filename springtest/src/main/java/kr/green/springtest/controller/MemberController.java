@@ -1,6 +1,10 @@
 package kr.green.springtest.controller;
 
+import java.util.Date;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import kr.green.springtest.service.MemberService;
 import kr.green.springtest.vo.MemberVO;
@@ -37,17 +42,19 @@ public class MemberController {
 	 * 일반적으로 매개변수는 객체를 자동으로 생성하는건 아님  */
 	
 	@GetMapping(value = "/signin")
-	public ModelAndView signinGet(ModelAndView mv) {
+	public ModelAndView signinGet(ModelAndView mv) {		
 		mv.setViewName("/template/member/signin");
 		//log.info(mv);
 		return mv;
 	}
 	@PostMapping(value = "/signin")
 	public ModelAndView signinPost(ModelAndView mv, MemberVO user) {
+		//System.out.println(user);
 		MemberVO loginUser = memberService.signin(user);
 		if(loginUser != null) {			mv.setViewName("redirect:/");}
 		else {							mv.setViewName("redirect:/signin");}
 		mv.addObject("user",loginUser);
+		//System.out.println(loginUser);
 		//log.info(mv);
 		return mv;
 	}
@@ -74,8 +81,17 @@ public class MemberController {
 	}
 	
 	@GetMapping(value = "/member/signout")
-	public ModelAndView memberSignoutGet(ModelAndView mv, HttpServletRequest r) {
-		r.getSession().removeAttribute("user");
+	public ModelAndView memberSignoutGet(ModelAndView mv, HttpServletRequest rq, HttpServletResponse rp) {
+		MemberVO user = memberService.getMember(rq);
+		rq.getSession().removeAttribute("user");
+		rq.getSession().invalidate();
+		Cookie loginCookie = WebUtils.getCookie(rq, "loginCookie");
+		if(loginCookie != null) {
+			loginCookie.setPath("/");
+			loginCookie.setMaxAge(0);
+			rp.addCookie(loginCookie);
+			memberService.keepLogin(user.getId(), "none", new Date());
+		}
 		mv.setViewName("redirect:/");
 		return mv;
 	}
@@ -85,6 +101,17 @@ public class MemberController {
 	public String memberIdCheckGet(@PathVariable("id") String id) {
 		//System.out.println(id);
 		return memberService.idCheck(id) ? "POSSIBLE" : "IMPOSSIBLE";
+	}
+	@GetMapping(value = "/find/pw")
+	public ModelAndView findePw(ModelAndView mv) {
+		//System.out.println(id);
+		mv.setViewName("/template/member/findPw");
+		return mv;
+	}
+	@ResponseBody
+	@GetMapping("/find/pw/{id}")
+	public String findePwIdGet(@PathVariable("id") String id) {
+		return memberService.findPw(id);
 	}
 	
 	
