@@ -21,7 +21,7 @@
 	  <label>아이디</label>
 	  <input type="text" class="form-control" name="id">
 	</div>
-	<button type="button" id="dupBtn" class="btn btn-outline-success col-12">아이디 중복 검사</button>
+	<button type="button" class="id-dup-btn btn btn-outline-success col-12">아이디 중복 검사</button>
 	<div class="form-group">
 	  <label>비밀번호</label>
 	  <input type="password" class="form-control" name="pw" id="pw">
@@ -95,6 +95,15 @@ $(function(){
             }         
         }
     });
+    $('.id-dup-btn').click(function(){
+    	//console.log('ttt');
+    	var id = $('[name=id]').val();
+    	var res = memberService.idCheck(contextPath, id);
+    	if(res)
+    		alert('사용 가능한 아이디 입니다.');
+    	else
+    		alert('이미 가입된 아이디 입니다.');
+    })
 })
 $.validator.addMethod(
     "regex",
@@ -104,6 +113,31 @@ $.validator.addMethod(
     },
     "Please check your input."
 );
+var contextPath = '<%=request.getContextPath()%>';
+var memberService =(function(){
+	function idCheck(contextPath, id){
+		var flag = false;
+		$.ajax({
+			async : false, //동기화 시켜서 끝날때까지 기다렸다가 실행하도록
+    		type : 'post',
+    		url : contextPath + '/id/check',
+    		data : {id : id},
+    		success : function(res){
+    			//console.log(res);
+    			if(res == 'OK'){
+    				flag = true;
+    			}else{
+    				flag = false;
+    			}
+    		}
+    	})
+    	return flag;
+	}
+	return{
+		name : 'memberService',
+		idCheck : idCheck
+	}
+})();
 </script>
 
 </body>

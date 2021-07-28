@@ -30,5 +30,12 @@ public class HomeController {
 		mv.setViewName("/template/main/home");
 		return mv;
 	}
+	@GetMapping("/main/home")
+	public ModelAndView returnHome(ModelAndView mv) {
+		
+		mv.addObject("title","메인");
+		mv.setViewName("redirect:/");
+		return mv;
+	}
 	
 }

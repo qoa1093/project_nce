@@ -2,7 +2,6 @@ package kr.green.study.service;
 
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +20,7 @@ public class MemberServiceImp implements MemberService{
 	public boolean signup(MemberVO user) {
 		if(user == null)
 			return false;
+		
 		//아이디 유효성 검사
 		String idRegex = "^[a-z0-9_-]{5,20}$";
 		if(user.getId() == null || !Pattern.matches(idRegex,user.getId()))
@@ -44,5 +44,29 @@ public class MemberServiceImp implements MemberService{
 		user.setPw(encPw);
 		memberDao.insertMember(user);
 		return true;
+	}
+
+	@Override
+	public MemberVO signin(MemberVO user) {
+		if(user == null || user.getId() == null) {
+			return null;
+		}
+		MemberVO dbUser = memberDao.selectUser(user.getId());
+		//잘못된 아이디 = 회원dl 아닌 아이디
+		if(dbUser ==null)
+			return null;
+		//아이디는 맞는데 잘못된 비번인 경우
+		if(user.getPw() == null || !passwordEncoder.matches(user.getPw(), dbUser.getPw()))
+		 return null;
+		//자동 로그인 기능을 위해
+		dbUser.setUseCookie(user.getUseCookie());
+		return dbUser;
+	}
+
+	@Override
+	public Object getMember(String id) {
+		if(id == null)
+			return null;
+		return memberDao.selectUser(id);
 	}
 }
