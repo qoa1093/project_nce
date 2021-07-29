@@ -11,7 +11,7 @@
 <div>
 	<nav class="navbar navbar-expand-sm bg-light navbar-light">
   <ul class="navbar-nav">
-  	<a class="navbar-brand" href="<%=request.getContextPath()%>/main/home">
+  	<a class="navbar-brand" href="<%=request.getContextPath()%>/">
 		<p>메인</p>
 	</a>
 	  <c:if test="${user == null}">
@@ -22,15 +22,15 @@
 		      <a class="nav-link" href="<%=request.getContextPath()%>/member/signin">로그인</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link disabled" href="#">Disabled</a>
+		      <a class="nav-link disabled" href="#">마이페이지</a>
 		    </li>
  	 </c:if>
  	 <c:if test="${user != null}">
 		    <li class="nav-item">
-		      <a class="nav-link" href="<%=request.getContextPath()%>/member/sigout">로그아웃</a>
+		      <a class="nav-link" href="<%=request.getContextPath()%>//">오잉</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="<%=request.getContextPath()%>/member/signin">로그인</a>
+		      <a class="nav-link" href="<%=request.getContextPath()%>/member/signout">로그아웃</a>
 		    </li>
 		    <li class="nav-item">
 		      <a class="nav-link disabled" href="#">Disabled</a>

@@ -1,5 +1,8 @@
 package kr.green.study.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +40,7 @@ public class MemberController {
 	@PostMapping("/member/signin")
 	public ModelAndView memberSigninPost(ModelAndView mv, MemberVO user) {
 		MemberVO loginUser = memberService.signin(user);
+		//System.out.println(loginUser);
 		System.out.println(loginUser);
 		if(loginUser != null)
 			mv.setViewName("redirect:/");
@@ -46,8 +50,15 @@ public class MemberController {
 		return mv;
 	}
 	@ResponseBody
-	@PostMapping("/id/check") //리퀘스트바디를 넣으면 입력된 아이디만(변수 상관없이 뮨자열 자체를 받음 에이젝스 데이터에서 있는 아이디에 넣어짐), 빼면 아이디가 일치하는 데이터를 찾음
+	@PostMapping("/id/check") //리퀘스트바디를 넣으면 입력된 아이디만(변수 상관없이 문자열 자체를 받음 에이젝스 데이터에서 있는 아이디에 넣어짐), 빼면 아이디가 일치하는 데이터를 찾음
 	public String idCheck(String id) {
 		return memberService.getMember(id) != null ? "FAIL" : "OK";
+	}
+	@GetMapping("/member/signout")
+	public ModelAndView memberSignoutGet(ModelAndView mv, 
+			HttpServletRequest request, HttpServletResponse response) {
+		memberService.signout(request, response);
+		mv.setViewName("redirect:/");
+		return mv;
 	}
 }
