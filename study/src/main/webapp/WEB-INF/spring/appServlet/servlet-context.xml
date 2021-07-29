@@ -42,6 +42,15 @@
 		<!-- 자동 로그인처리 인터셉터 : 자동 로그인 유지 -->
 		<beans:bean id="autologinInterceptor" 
 		class="kr.green.study.interceptor.AutoLoginIntercepteor"></beans:bean>
+		<!-- 비회원만 접근할 수 있게 하는 인터셉터 -->
+		<beans:bean id="guestInterceptor" 
+		class="kr.green.study.interceptor.GuestIntercepteor"></beans:bean>
+		<!-- 회원만 접근할 수 있게 하는 인터셉터 -->
+		<beans:bean id="memberInterceptor" 
+		class="kr.green.study.interceptor.MemberIntercepteor"></beans:bean>
+		<!-- 관리자만 접근할 수 있게 하는 인터셉터 -->
+		<beans:bean id="adminInterceptor" 
+		class="kr.green.study.interceptor.AdminIntercepteor"></beans:bean>
 	<!-- 인터셉트가 언제 동작해야하는지 알려줌 -->
 	<interceptors>
 	    <interceptor>
@@ -51,6 +60,19 @@
 	    <interceptor>
 	        <mapping path="/**/"/>
 	        <beans:ref bean="autologinInterceptor"/>
+	    </interceptor>
+	    <interceptor>
+	        <mapping path="/member/signup"/>
+	        <mapping path="/member/signin"/>
+	        <beans:ref bean="guestInterceptor"/>
+	    </interceptor>
+	    <interceptor>
+	        <mapping path="/abcd/*"/>
+	        <beans:ref bean="memberInterceptor"/>
+	    </interceptor>
+	     <interceptor>
+	        <mapping path="/admin/*"/>
+	        <beans:ref bean="adminInterceptor"/>
 	    </interceptor>
 	</interceptors>
 	
