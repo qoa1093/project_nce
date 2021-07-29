@@ -1,0 +1,47 @@
+7월 29일
+게스트
+멤버
+어드민
+슈퍼어드민(인터셉터 x)
+
+superadmin이 admin선정
+
+멤버브이오 임폴트문제는
+pom.xml 228번째줄 1.8버전 두개로 바꿈
+
+
+컨트롤 h : 모든 프로젝트 단위로 검색 가능
+
+$와 #의 차이
+
+오더바이 #을 쓰면 'id' 'asc'와 같은의미
+ => 해당하는 값 앞뒤로 따옴표 : 문자열 처리
+
+오더바이 $을 쓰면  id, asc와 같은 의미
+=> 쿼리문을 직접입력한 것과 같은 효과
+
+  <a href="<%=request.getContextPath()%>/admin/user/list?sortType=authority&sort=${pm.criteria.notSort}">
+     <span>등급</span>
+      <c:if test="${pm.criteria.sortType == 'authority' && pm.criteria.sort == 'asc'}">
+      </c:if>
+
+sortType=authority로 cri 정보 지정해주고 그정보를 맵퍼로 보내서 
+order by ${cri.sortType} ${cri.sort} limit #{cri.pageStart}, #{cri.perPageNum}
+
+에서 ${cri.sortType}부분을 authority로 셀렉해서 모아 보내게 함 => 그리고 c:if문으로 내림차순, 오름차순을 고르고 해당하는 차순정보를 ${pm.criteria.notSort}(cri에 있음)에 담아서 보내면 맵퍼에서 다시 ${cri.sort}을 통해 차순지정해서 정보를 보내고 그게 최종 정렬이 됨.
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------오류
+
+인터셉터 내 겟,셋 "" 부분 맞춰주기
