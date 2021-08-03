@@ -67,13 +67,23 @@
 	        <beans:ref bean="guestInterceptor"/>
 	    </interceptor>
 	    <interceptor>
-	        <mapping path="/abcd/*"/>
+	        <mapping path="/board/register"/>
+	        <mapping path="/board/modify"/>
+	        <mapping path="/board/delete"/>
 	        <beans:ref bean="memberInterceptor"/>
 	    </interceptor>
 	     <interceptor>
 	        <mapping path="/admin/**/"/>
+	        <mapping path="/board/notice/register"/>
+	        <mapping path="/board/notice/modify"/>
+	        <mapping path="/board/notice/delete"/>
 	        <beans:ref bean="adminInterceptor"/>
 	    </interceptor>
 	</interceptors>
+	<!-- 첨부파일 의존성 -->
+		<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		    <!-- 업로드 최대 크기 10Mb -->
+		    <beans:property name="maxUploadSize" value="10485760"></beans:property>
+		</beans:bean>
 	
 </beans:beans>
