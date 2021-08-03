@@ -66,7 +66,7 @@
    	 <li class="page-item <c:if test="${pm.criteria.page == index}">active</c:if>"><a class="page-link" href="<%=request.getContextPath()%>/admin/user/list?page=${index}&sortType=${pm.criteria.sortType}&sort=${pm.criteria.sort}">${index}</a></li>
    </c:forEach>
    <c:if test="${pm.next}">
-    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/admin/user/list?page=${pm.startPage+1}&sortType=${pm.criteria.sortType}&sort=${pm.criteria.sort}">다음</a></li>
+    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/admin/user/list?page=${pm.endPage+1}&sortType=${pm.criteria.sortType}&sort=${pm.criteria.sort}">다음</a></li>
    </c:if>
   </ul>
   </div>

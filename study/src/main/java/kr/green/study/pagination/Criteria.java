@@ -7,6 +7,7 @@ public class Criteria {
 	
 	private int page; 
 	private int perPageNum;
+	private String type; //검색 타입이 아니라 게시글 타입
 	private String sortType; //id, authority로 정렬
 	private String sort; //desc, asc
 	public Criteria() {
@@ -14,8 +15,13 @@ public class Criteria {
 		this.perPageNum = 10;
 		this.sortType = "id";
 		this.sort = "asc";
+		this.type = "NORMAL";
 	}
-	
+	public Criteria(int page, int perPageNum) {
+		this();
+		this.page = page;
+		this.perPageNum = perPageNum;
+	}
 	public int getPageStart() {
 		return (this.page -1) * perPageNum;
 	}
