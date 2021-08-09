@@ -48,8 +48,12 @@
 		<div class="reply form-group">
 			<label>댓글</label>
 			<div class="contents">
-				<div class="reply-list form-group"></div>
-				<ul class="pagination justify-content-center"></ul>
+				<div class="reply-list input-group">
+			
+				</div>
+				<ul class="pagination justify-content-center">
+				
+				</ul>
 				<div class="reply-box form-group">
 					<textarea class="reply-input form-control mb-2" ></textarea>
 					<button type="button" class="reply-btn btn btn-outline-success">등록</button>
@@ -75,6 +79,7 @@
 	var rp_me_id = '${user.id}';
 	var contextPath = '<%=request.getContextPath()%>';
 	$(function(){
+		//댓글 등록 버튼 클릭
 		$('.reply-btn').click(function(){
 			//console.log(123);
 			if(rp_me_id == ''){
@@ -88,23 +93,108 @@
 					rp_bd_num:rp_bd_num,
 					rp_content:rp_content
 			}	
-			replyService.add(contextPath, data, addOk, listOk);
+			replyService.add(contextPath, data, responseOk, listOk);
+			$('.reply-input').val('');
 		})
+		//페이지네이션에서 페이지 클릭했을 때 해당 댓글 페이지로 이동 
+		$(document).on('click','.reply .pagination li',function(){
+			page = $(this).attr('data-page');
+			replyService.list(contextPath, {page: page, rp_bd_num:rp_bd_num}, listOk);
+		})
+		//댓글 수정버튼 클릭
+		$(document).on('click','.reply-mod-btn',function(){
+			//클릭한 수정 버튼이 있는 댓글의 내용 | this : 수정버튼
+			var rp_content = $(this).parent().siblings('.reply-content').text();
+			
+			$('.reply .reply-content').each(function(){ //해당요소(댓글) 각각에 작업
+				// 댓글 수정을 한번에 하나씩만 하게 만듬 | this : .reply-content 요소 각각 하나마다
+				var rp_content = $(this).text();
+				var str = '<div class="form-control reply-content">'+rp_content+'</div>';
+				$(this).before(str);
+				$(this).remove();
+				//수정 버튼 보여주고 등록 버튼 감추기
+				$('.reply .reply-ok-btn').remove();
+				$('.reply .reply-mod-btn').show();
+			})
+			//$(this).parent() : 버튼 그룹(수정, 삭제 버튼을 가진 그룹)
+			$(this).parent().siblings('.reply-content').remove();
+			var str = '<textarea class="form-control reply-content">'+rp_content+'</textarea>';
+			$(this).parent().before(str);
+			//수정 버튼 감추고
+			$(this).hide();
+			//등록버튼 추가
+			str = '<button class="btn btn-outline-success reply-ok-btn">등록</button>';
+			$(this).before(str);
+		})
+		//수정 버튼 눌렀을 때 나타나는 등록버튼 클릭
+		$(document).on('click','.reply-ok-btn',function(){
+			//댓글 번호
+			var rp_num = $(this).siblings('.rp_num').val();
+			//수정된 댓글 내용
+			var rp_content = $(this).parent().siblings('.reply-content').val();
+			//수정된 댓글이 있는 페이지
+			var page = $('.reply .pagination .active a').html();
+			//console.log(rp_num, rp_content, page);
+			var data={
+					rp_num		: rp_num, 
+					rp_content	: rp_content,
+					rp_bd_num 	: rp_bd_num,
+					page 		: page
+			}
+			replyService.mod(contextPath, data, responseOk ,listOk );
+			
+		})
+		//삭제버튼을 클릭
+		$(document).on('click','.reply-del-btn',function(){
+			var rp_num = $(this).siblings('.rp_num').val();
+			var data = {rp_num : rp_num, rp_bd_num : rp_bd_num};
+			replyService.del(contextPath, data, responseOk, listOk)
+		})
+		//시작시 댓글 1페이지 내용 가져옴
 		replyService.list(contextPath, {page:1, rp_bd_num:rp_bd_num}, listOk);
 	})
-	function addOk(res){		
+	function responseOk(res, str){
 		if(res == 'OK')
-			alert('댓글이 등록되었습니다.');
+			alert('댓글이 '+str+'되었습니다.');
 		else
-			alert('댓글 등록에 실패했습니다.');
+			alert('댓글 '+str+'에 실패했습니다.');
 	}
 	function listOk(res){
 		var list = res.list;
 		var str = '';
 		for(i = 0; i < list.length; i++){
-			str += list[i].rp_me_id + ' : ' + list[i].rp_content + '<br>';
+			str += 
+				'<div class="input-group">'+
+					'<div class="input-group-prepend">'+	
+						'<span class="input-group-text">'+list[i].rp_me_id+'</span>'+
+					'</div>'+
+					'<div class="form-control reply-content">'+list[i].rp_content+'</div>'+
+					'<div class="input-group-append">';
+					if(list[i].rp_me_id == rp_me_id){
+					str += 
+						'<button class="btn btn-outline-danger reply-mod-btn">수정</button>'+
+						'<button class="btn btn-outline-danger reply-del-btn">삭제</button>'+	
+						'<input type= "hidden" class="rp_num" value="'+list[i].rp_num+'">'
+					}
+			str +=
+					'</div>'+
+				'</div>'
 		}
 		$('.reply-list').html(str);
+		str='';
+		var pm = res.pm;
+		if(pm.prev)
+			str += '<li class="page-item" data-page="'+(pm.startPage - 1)+'"><a class="page-link" href="javascript:void(0);">이전</a></li>';
+		for(i=pm.startPage; i<=pm.endPage; i++){
+			if(pm.criteria.page != i)			
+				str += '<li class="page-item" data-page="'+i+'"><a class="page-link" href="javascript:void(0);">'+i+'</a></li>';
+			else
+				str += '<li class="page-item active" data-page="'+i+'"><a class="page-link" href="javascript:void(0);">'+i+'</a></li>';
+		}
+		if(pm.next)
+			str +=	'<li class="page-item" data-page="'+(pm.endPage + 1)+'"><a class="page-link" href="javascript:void(0);">다음</a></li>';
+		$('.pagination').html(str);
+		
 	}	
 		
 	</script>
